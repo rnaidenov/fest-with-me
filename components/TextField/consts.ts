@@ -1,0 +1,1 @@
+export const KEYS_TO_HANDLE = ['Enter', 'Escape', 'ArrowUp', 'ArrowDown'];
