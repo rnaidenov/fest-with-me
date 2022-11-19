@@ -51,15 +51,33 @@ const generateUrl = (
 const queryKiwi = async (
   currency: CurrencyCode,
   origin: string,
-  destination: string,
+  destinationCity: string,
+  destinationCountry: string,
   dateFrom: string,
   dateTo: string,
   numPeople: number,
   returnFrom?: string,
   returnTo?: string,
 ) => {
+  console.log("🚀 ~ file: kiwi.ts ~ line 62 ~ destinationCity", destinationCity);
   const originCode = await getCityCode(origin);
-  const destinationCode = await getCityCode(destination);
+  console.log("🚀 ~ file: kiwi.ts ~ line 64 ~ originCode", originCode);
+  // TODO: Use country if it fails with destination city
+  const destinationCode = await getCityCode(destinationCity);
+  console.log("🚀 ~ file: kiwi.ts ~ line 64 ~ destinationCode", destinationCode);
+
+  // TODO: What if event is today / tomorrow
+  const url = generateUrl(
+    currency,
+    originCode,
+    destinationCode,
+    dateFrom,
+    dateTo,
+    numPeople,
+    returnFrom,
+    returnTo,
+  );
+  console.log("🚀 ~ file: kiwi.ts ~ line 79 ~ url", url);
 
   const res = await fetch(
     generateUrl(
@@ -122,7 +140,8 @@ export const handler = async (req: Request, _ctx: HandlerContext): Response => {
     const {
       currency,
       origin,
-      destination,
+      destinationCity,
+      destinationCountry,
       numPeople,
       dateFrom,
       dateTo,
@@ -133,13 +152,15 @@ export const handler = async (req: Request, _ctx: HandlerContext): Response => {
     const data = await queryKiwi(
       currency,
       origin,
-      destination,
+      destinationCity,
+      destinationCountry,
       dateFrom,
       dateTo,
       numPeople,
       returnFrom,
       returnTo,
     );
+    console.log("🚀 ~ file: kiwi.ts ~ line 147 ~ handler ~ data", data);
 
     return new Response(JSON.stringify(data, {
       status: 200,

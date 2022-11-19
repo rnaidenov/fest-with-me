@@ -15,5 +15,6 @@ export enum QueryKey {
   NumPeople = "numPeople",
   EventName = "eventName",
   EventDate = "eventDate",
-  Destination = "destination",
+  DestinationCity = "destinationCity",
+  DestinationCountry = "destinationCountry",
 }

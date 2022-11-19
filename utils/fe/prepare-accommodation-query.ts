@@ -1,29 +1,18 @@
-import { format } from "date-fns";
 import { AIRBNB_DATE_FORMAT } from "@consts";
-import { PrepareAccommodationQueryArgs } from "./types.ts";
+import { AccommodationQueryArgs } from "./types.ts";
+import { normalizeDate } from "./normalize-date.ts";
 
 export const prepareAccommodationQuery = (
-  { currency, city, country, dateFrom, dateTo, numPeople }:
-    PrepareAccommodationQueryArgs,
+  { eventDate, dateFrom, dateTo, ...otherArgs }: AccommodationQueryArgs,
 ) => {
-  const checkInDate = format(new Date(dateFrom), AIRBNB_DATE_FORMAT);
-  console.log(
-    "🚀 ~ file: prepare-airbnb-query.ts ~ line 10 ~ checkInDate",
-    checkInDate,
-  );
-  const checkOutDate = format(new Date(dateTo), AIRBNB_DATE_FORMAT);
-  console.log(
-    "🚀 ~ file: prepare-airbnb-query.ts ~ line 12 ~ checkOutDate",
-    checkOutDate,
-  );
+  const checkInDate = dateFrom ??
+    normalizeDate(eventDate, [-2], AIRBNB_DATE_FORMAT)[0];
+  const checkOutDate = dateTo ??
+    normalizeDate(eventDate, [-2], AIRBNB_DATE_FORMAT)[0];
 
-  // TODO: Date;
   return {
-    currency,
-    city,
-    country,
-    numPeople,
     checkInDate,
     checkOutDate,
+    ...otherArgs,
   };
 };

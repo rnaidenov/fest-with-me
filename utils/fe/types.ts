@@ -1,4 +1,4 @@
-export interface PrepareKiwiQueryArgs {
+export interface FlightsQueryArgs {
   currency: string;
   origin: string;
   destination: string;
@@ -6,8 +6,9 @@ export interface PrepareKiwiQueryArgs {
   eventDate: string;
 }
 
-export interface PrepareAccommodationQueryArgs {
+export interface AccommodationQueryArgs {
   // TODO: Maybe enum
+  eventDate: string;
   currency: string;
   city: string;
   country: string;

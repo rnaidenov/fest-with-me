@@ -1,37 +1,29 @@
-import { addDays, format } from "date-fns";
 import { KIWI_DATE_FORMAT } from "@consts";
-import { QueryKey } from "@types";
-import { PrepareKiwiQueryArgs } from "./types.ts";
+import { FlightsQueryArgs } from "./types.ts";
+import { normalizeDate } from "./normalize-date.ts";
 
-export const prepareFlightsQuery = (
-  { currency, origin, destination, numPeople, eventDate: date }:
-    PrepareKiwiQueryArgs,
-) => {
-  const eventDate = new Date(date);
-
-  const normalizedEventDate = format(eventDate, KIWI_DATE_FORMAT);
-  const normalizedFromDate = format(addDays(eventDate, -2), KIWI_DATE_FORMAT);
-  const normalizedToDate = format(addDays(eventDate, -1), KIWI_DATE_FORMAT);
-  const normalizedReturnFromDate = format(
-    addDays(eventDate, 1),
+export const prepareFlightsQuery = ({
+  eventDate,
+  ...otherArgs
+}: FlightsQueryArgs) => {
+  const [dateFrom, dateTo, returnFrom, returnTo] = normalizeDate(
+    eventDate,
+    [-2, -1, 1, 2],
     KIWI_DATE_FORMAT,
   );
-  const normalizedReturnToDate = format(
-    addDays(eventDate, 2),
-    KIWI_DATE_FORMAT,
+  console.log(
+    "🚀 ~ file: prepare-flights-query.ts ~ line 14 ~ dateFrom, dateTo, returnFrom, returnTo",
+    dateFrom,
+    dateTo,
+    returnFrom,
+    returnTo,
   );
 
-  console.log("normalizedEventDate", normalizedEventDate);
-
-  // TODO: Date;
   return {
-    origin,
-    destination,
-    numPeople,
-    currency,
-    dateFrom: normalizedFromDate,
-    dateTo: normalizedToDate,
-    returnFrom: normalizedReturnFromDate,
-    returnTo: normalizedReturnToDate,
+    dateTo,
+    dateFrom,
+    returnTo,
+    returnFrom,
+    ...otherArgs,
   };
 };
