@@ -15,7 +15,7 @@ import { CurrencyCode } from "../../../types.ts";
 // const returnFrom = '25/09/2022';
 // const returnTo = '29/09/2022';
 
-const maxStopovers = 2;
+const maxStopovers = 0;
 
 const getCityCode = async (location: string) => {
   const data = await fetch(
@@ -47,7 +47,6 @@ const generateUrl = (
   }`;
 };
 
-// TODO: If city is random unsearchable thing, then look by country
 const queryKiwi = async (
   currency: CurrencyCode,
   origin: string,
@@ -79,27 +78,24 @@ const queryKiwi = async (
     },
   ).then((res) => res.json());
 
+  console.log(res);
+
   const result = res.data[0];
 
   if (result !== undefined) {
     // TODO: Export to CSV flights for more options?
     const { flyFrom, flyTo, price, deep_link, route } = result;
+    console.log("🚀 ~ file: kiwi.ts ~ line 58 ~ queryKiwi ~ result", result);
+    throw Error("sese");
 
-    const routeStops = route.length;
-    if (routeStops > 0) {
-      const inbound = route[0];
-      const outbound = route[routeStops - 1];
-
-      return {
-        flyFrom,
-        flyTo,
-        price,
-        url: deep_link,
-        inboundDate: inbound["local_departure"],
-        outboundDate: outbound["local_departure"],
-      };
-    }
+    return {
+      flyFrom,
+      flyTo,
+      price,
+      url: deep_link,
+    };
   }
+
   return null;
 };
 

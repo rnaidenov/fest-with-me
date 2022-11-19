@@ -3,25 +3,25 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/[name].tsx";
-import * as $1 from "./routes/api/joke.ts";
-import * as $2 from "./routes/api/search/airbnb.ts";
-import * as $3 from "./routes/api/search/kiwi.ts";
-import * as $4 from "./routes/api/search/ra.ts";
-import * as $5 from "./routes/index.tsx";
+import * as $0 from "./routes/api/search/airbnb.ts";
+import * as $1 from "./routes/api/search/kiwi.ts";
+import * as $2 from "./routes/api/search/ra.ts";
+import * as $3 from "./routes/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
+import * as $$1 from "./islands/EventAutocomplete.tsx";
+import * as $$2 from "./islands/SearchView.tsx";
 
 const manifest = {
   routes: {
-    "./routes/[name].tsx": $0,
-    "./routes/api/joke.ts": $1,
-    "./routes/api/search/airbnb.ts": $2,
-    "./routes/api/search/kiwi.ts": $3,
-    "./routes/api/search/ra.ts": $4,
-    "./routes/index.tsx": $5,
+    "./routes/api/search/airbnb.ts": $0,
+    "./routes/api/search/kiwi.ts": $1,
+    "./routes/api/search/ra.ts": $2,
+    "./routes/index.tsx": $3,
   },
   islands: {
     "./islands/Counter.tsx": $$0,
+    "./islands/EventAutocomplete.tsx": $$1,
+    "./islands/SearchView.tsx": $$2,
   },
   baseUrl: import.meta.url,
   config,
