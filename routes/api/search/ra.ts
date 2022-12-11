@@ -1,6 +1,9 @@
-const RA_SEARCH_API = 'https://ra.co/graphql';
-const RA_SEARCH_OPERATION_NAME = 'GET_GLOBAL_SEARCH_RESULTS';
-const RA_EVENT_INDEX = 'EVENT';
+import { Handlers } from "$fresh/server.ts";
+
+const RA_SEARCH_API = "https://ra.co/graphql";
+const RA_SEARCH_OPERATION_NAME = "GET_GLOBAL_SEARCH_RESULTS";
+const RA_EVENT_INDEX = "EVENT";
+const RA_HOST = "https://ra.co";
 
 // TODO: Utils
 const searchRA = async (searchTerm: string) => {
@@ -18,31 +21,36 @@ const searchRA = async (searchTerm: string) => {
       },
         "query":"query GET_GLOBAL_SEARCH_RESULTS($searchTerm: String!, $indices: [IndexType!]) {search(searchTerm: $searchTerm, limit: 16, indices: $indices, includeNonLive: false) { searchType id value areaName countryName countryCode contentUrl date }}"
       }
-    `
-  }).then(res => res.json());
+    `,
+  }).then((res) => res.json());
 
-  return eventsResponse.data.search.map(({ id, value, areaName, countryName, date }) =>
-    ({ id: id, name: value, city: areaName, country: countryName, date: date })
-  );
-}
-
-import { Handlers } from "$fresh/server.ts";
+  return eventsResponse.data.search.map((
+    { id, value, areaName, countryName, date, contentUrl },
+  ) => ({
+    id: id,
+    name: value,
+    city: areaName,
+    country: countryName,
+    date: date,
+    url: `${RA_HOST}${contentUrl}`,
+  }));
+};
 
 export const handler = async (req: Request, _ctx: HandlerContext): Response => {
   try {
     const body = await req.json();
 
     if (!body.query) {
-      // TODO: Provided in request function similar to HL 
+      // TODO: Provided in request function similar to HL
       return new Response({
-        error: 'Required "query" value is not provided in the request body.'
+        error: 'Required "query" value is not provided in the request body.',
       }, {
         status: 400,
         headers: {
           "content-type": "application/json; charset=utf-8",
         },
       });
-    };
+    }
 
     const data = await searchRA(body.query);
 
@@ -58,4 +66,3 @@ export const handler = async (req: Request, _ctx: HandlerContext): Response => {
     console.error(error);
   }
 };
-
