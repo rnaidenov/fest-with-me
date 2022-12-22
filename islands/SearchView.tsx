@@ -1,10 +1,12 @@
-import { useRef, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { PageProps } from "$fresh/server.ts";
-import { TextField } from "@components";
+import { Box, Carousel, SearchItem, TextField } from "@components";
 import { QueryKey } from "../types.ts";
 import EventAutocomplete from "../islands/EventAutocomplete.tsx";
 import { searchFlights } from "../utils/fe/search-flights.ts";
 import { searchAccommodation } from "../utils/fe/search-accommodation.ts";
+import PeopleCounter from "./PeopleCounter.tsx";
+import NightsCounter from "./NightsCounter.tsx";
 
 export default function SearchView(props: PageProps) {
   const searchWrapRef = useRef();
@@ -65,42 +67,119 @@ export default function SearchView(props: PageProps) {
   };
 
   return (
-    <div ref={searchWrapRef}>
-      <TextField
-        type="text"
-        data-name={QueryKey.Origin}
-        value={query.origin}
-        onChange={handleCommonChange}
-      />
-      <TextField
-        type="number"
-        data-name={QueryKey.NumPeople}
-        value={query.numPeople}
-        onChange={handleCommonChange}
-      />
-      <EventAutocomplete
-        data-name={QueryKey.EventName}
-        value={query.eventName}
-        onChange={handleEventChange}
-      />
+    <>
+      <div
+        className="relative w-full md:mx-auto md:w-10/12 xl:w-9/12"
+        ref={searchWrapRef}
+      >
+        <div className="flex flex-col h-[50vh] items-center text-white justify-center h-10/12 md:pb-0 md:flex-row md:justify-around md:pt-48">
+          <PeopleCounter />
+          <p className="mx-2 my-2 md:my-0">
+            going to
+          </p>
+          <EventAutocomplete
+            className="w-11/12 min-h-[40px] md:w-80"
+            data-name={QueryKey.EventName}
+            value={query.eventName}
+            onChange={handleEventChange}
+          />
+          <p className="mx-2 my-2 md:my-0">
+            from
+          </p>
+          <TextField
+            className="w-11/12 min-h-[40px] md:w-48"
+            type="text"
+            data-name={QueryKey.Origin}
+            value={query.origin}
+            onChange={handleCommonChange}
+          />
+          <p className="mx-2 my-2 md:my-0">
+            for up to
+          </p>
+          <NightsCounter />
 
-      <br />
-      <b>Flights:</b>
-      <br />
-      {flightsData ? JSON.stringify(flightsData) : isSearching ? "🤔💭" : "💩"}
-      <br />
-      <b>Airbnb:</b>
-      <br />
+          <button
+            className="flex items-center justify-center absolute w-14 h-14 -bottom-7 rounded-full bg-eggplant shadow-2xl shadow-[#50d71e] z-50"
+            onClick={handleClick}
+          >
+            <img src="/search.svg" alt="Search magnifying glass" />
+          </button>
+        </div>
+      </div>
 
-      {accommodationData
-        ? JSON.stringify(accommodationData)
-        : isSearching
-        ? "🤨🧐🤨"
-        : "💩"}
-      <br />
-      <br />
+      {
+        /*
+        <TextField
+          type="number"
+          data-name={QueryKey.NumPeople}
+          value={query.numPeople}
+          onChange={handleCommonChange}
+        />
 
-      <button className="bg-red-100" onClick={handleClick}>Search</button>
-    </div>
+
+        <br />
+        <b>Flights:</b>
+        <br />
+        {flightsData ? JSON.stringify(flightsData) : isSearching ? "🤔💭" : "💩"}
+        <br />
+        <b>Airbnb:</b>
+        <br />
+
+        {accommodationData
+          ? JSON.stringify(accommodationData)
+          : isSearching
+          ? "🤨🧐🤨"
+          : "💩"}
+        <br />
+        <br /> */
+      }
+      <div className="h-1/2 justify-around items-center hidden sm:flex">
+        <SearchItem
+          name="Party"
+          redirectUrl="https://ra.co/events/1582415"
+          icon="/tickets.svg"
+          className="h-64 w-72"
+          price={42}
+        />
+        <SearchItem
+          name="Flight"
+          redirectUrl="https://ra.co/events/1582415"
+          icon="/flight.svg"
+          iconStyles="animate-fly"
+          className="h-64 w-72"
+          price={69}
+        />
+        <SearchItem
+          name="Rest"
+          redirectUrl="https://ra.co/events/1582415"
+          icon="/house.svg"
+          // TODO: Repetition
+          className="h-64 w-72"
+          price={100}
+        />
+      </div>
+
+      <Carousel className="relative h-1/2 block sm:hidden">
+        <SearchItem
+          name="Party"
+          redirectUrl="https://ra.co/events/1582415"
+          icon="/tickets.svg"
+          price={42}
+        />
+        <SearchItem
+          name="Flight"
+          redirectUrl="https://ra.co/events/1582415"
+          icon="/flight.svg"
+          iconStyles="animate-fly"
+          price={69}
+        />
+        <SearchItem
+          name="Rest"
+          redirectUrl="https://ra.co/events/1582415"
+          icon="/house.svg"
+          price={100}
+        />
+      </Carousel>
+    </>
   );
 }

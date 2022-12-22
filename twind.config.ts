@@ -10,7 +10,7 @@ export default {
     extend: {
       animation: {
         "in-from-left": "in-from-left 2s cubic-bezier(.19,1,.22,1) backwards",
-        "fly": "fly 2s ease-in-out 0s infinite alternate",
+        "fly": "fly 3s ease-in-out 0s infinite alternate",
       },
       keyframes: {
         ["in-from-left"]: {
@@ -18,9 +18,15 @@ export default {
           "100%": { transform: "translateX(0%)" },
         },
         ["fly"]: {
-          "0%": { transform: "translate(5px, 5px) rotate(95deg)" },
-          "100%": { transform: "translate(-5px,-5px) rotate(85deg)" },
+          "0%": { transform: "translate(5px, 5px) rotate(-1.25deg)" },
+          "100%": { transform: "translate(-5px,-5px) rotate(1.25deg)" },
         },
+      },
+      backgroundImage: {
+        "hero-festival": "url('/half-bg.jpeg')",
+      },
+      colors: {
+        "eggplant": "#5E4352",
       },
     },
   },

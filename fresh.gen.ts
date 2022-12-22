@@ -9,7 +9,9 @@ import * as $2 from "./routes/api/search/ra.ts";
 import * as $3 from "./routes/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/EventAutocomplete.tsx";
-import * as $$2 from "./islands/SearchView.tsx";
+import * as $$2 from "./islands/NightsCounter.tsx";
+import * as $$3 from "./islands/PeopleCounter.tsx";
+import * as $$4 from "./islands/SearchView.tsx";
 
 const manifest = {
   routes: {
@@ -21,7 +23,9 @@ const manifest = {
   islands: {
     "./islands/Counter.tsx": $$0,
     "./islands/EventAutocomplete.tsx": $$1,
-    "./islands/SearchView.tsx": $$2,
+    "./islands/NightsCounter.tsx": $$2,
+    "./islands/PeopleCounter.tsx": $$3,
+    "./islands/SearchView.tsx": $$4,
   },
   baseUrl: import.meta.url,
   config,

@@ -5,6 +5,9 @@
   "importMap": "./import_map.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+    "lib": [
+      "dom"
+    ]
   }
 }

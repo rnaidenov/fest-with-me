@@ -1,11 +1,11 @@
-import { useRef } from 'preact/hooks';
 import { PageProps } from "$fresh/server.ts";
-import SearchView from '../islands/SearchView.tsx';
+import SearchView from "../islands/SearchView.tsx";
+import { Layout } from "../components/index.tsx";
 
 export default function Index(props: PageProps) {
   return (
-    <div >
+    <Layout>
       <SearchView />
-    </div>
-  )
+    </Layout>
+  );
 }
