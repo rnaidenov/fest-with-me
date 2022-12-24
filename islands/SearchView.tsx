@@ -159,7 +159,7 @@ export default function SearchView(props: PageProps) {
         />
       </div>
 
-      <Carousel className="relative h-1/2 block sm:hidden">
+      <Carousel className="h-[50vh] block bg-white w-full sm:hidden">
         <SearchItem
           name="Party"
           redirectUrl="https://ra.co/events/1582415"

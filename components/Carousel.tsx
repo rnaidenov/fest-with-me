@@ -19,15 +19,19 @@ export const Carousel = ({ children, className }) => {
 
   return (
     <div
-      className={`overflow-hidden whitespace-nowrap${" " + className ?? ""}`}
+      className={`overflow-hidden relative whitespace-nowrap${
+        " " + className ?? ""
+      }`}
     >
-      <img
-        alt="Chevron left"
-        data-direction="left"
-        src="/chevron-left.svg"
-        onClick={handleSelect}
-        className="absolute h-8 w-8 left-4 top-1/2 -translate-y-1/2 z-40 hover:cursor-pointer"
-      />
+      <div className="absolute flex bottom-0 left-0 pl-2 items-center z-40 h-full hover:cursor-pointer">
+        <img
+          alt="Chevron left"
+          data-direction="left"
+          src="/chevron-left.svg"
+          onClick={handleSelect}
+          className="h-8 w-8 left-4"
+        />
+      </div>
       <div
         className={`transition-transform duration-300
         -translate-x-[${activeIdx * 100}%] h-full`}
@@ -36,13 +40,15 @@ export const Carousel = ({ children, className }) => {
           cloneElement(child, { className: "w-full h-full" })
         )}
       </div>
-      <img
-        alt="Chevron right"
-        src="/chevron-right.svg"
-        data-direction="right"
-        onClick={handleSelect}
-        className="absolute h-8 w-8 right-4 top-1/2 -translate-y-1/2 z-40 hover:cursor-pointer"
-      />
+      <div className="absolute flex bottom-0 right-0 pr-4 items-center z-40 h-full hover:cursor-pointer">
+        <img
+          alt="Chevron right"
+          src="/chevron-right.svg"
+          data-direction="right"
+          onClick={handleSelect}
+          className="h-8 w-8 left-4"
+        />
+      </div>
     </div>
   );
 };

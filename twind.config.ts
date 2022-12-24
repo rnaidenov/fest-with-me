@@ -11,6 +11,7 @@ export default {
       animation: {
         "in-from-left": "in-from-left 2s cubic-bezier(.19,1,.22,1) backwards",
         "fly": "fly 3s ease-in-out 0s infinite alternate",
+        "flicker": "flicker 300ms linear 0s",
       },
       keyframes: {
         ["in-from-left"]: {
@@ -20,6 +21,44 @@ export default {
         ["fly"]: {
           "0%": { transform: "translate(5px, 5px) rotate(-1.25deg)" },
           "100%": { transform: "translate(-5px,-5px) rotate(1.25deg)" },
+        },
+        ["flicker"]: {
+          "0%": {
+            opacity: 0.1,
+          },
+          "2%": {
+            opacity: 1,
+          },
+          "8%": {
+            opacity: 0.1,
+          },
+          "9%": {
+            opacity: 1,
+          },
+          "12%": {
+            opacity: 0.1,
+          },
+          "20%": {
+            opacity: 1,
+          },
+          "25%": {
+            opacity: 0.3,
+          },
+          "30%": {
+            opacity: 1,
+          },
+          "70%": {
+            opacity: 0.7,
+          },
+          "72%": {
+            opacity: 0.2,
+          },
+          "77%": {
+            opacity: .9,
+          },
+          "100%": {
+            opacity: 1,
+          },
         },
       },
       backgroundImage: {

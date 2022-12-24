@@ -1,8 +1,16 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
+import { useFirstRender } from "./use-first-render.ts";
+import { singularOrPlural as singularOrPluralFn } from "../singular-or-plural.ts";
 
-export const useCount = () => {
+export const useCount = (singular: string, plural: string) => {
   const [count, setcount] = useState<number>(1);
+  const [isPluralSingularChanged, setIsPluralSingularChanged] = useState(false);
 
+  const firstRender = useFirstRender();
+
+  const singularOrPlural = singularOrPluralFn(count, singular, plural);
+
+  // TODO: e
   const handleCount = (e) => {
     const { countChange } = e.target.dataset;
     const changeBy = Number(countChange);
@@ -12,5 +20,18 @@ export const useCount = () => {
     );
   };
 
-  return [count, handleCount];
+  useEffect(() => {
+    if (firstRender === false) {
+      setIsPluralSingularChanged(true);
+    }
+
+    return () => {
+      // TODO: Is this right?
+      setTimeout(() => {
+        setIsPluralSingularChanged(false);
+      }, 300);
+    };
+  }, [singularOrPlural]);
+
+  return [count, handleCount, singularOrPlural, isPluralSingularChanged];
 };

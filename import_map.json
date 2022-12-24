@@ -13,6 +13,7 @@
     "@consts": "./consts.ts",
     "@types": "./types.ts",
     "date-fns": "https://esm.sh/date-fns@2.29.3",
-    "tailwindcss-animation-delay": "https://esm.sh/tailwindcss-animation-delay@1.0.7"
+    "tailwindcss-animation-delay": "https://esm.sh/tailwindcss-animation-delay@1.0.7",
+    "@fe-utils/hooks": "./utils/fe/hooks/index.ts"
   }
 }

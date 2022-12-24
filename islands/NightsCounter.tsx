@@ -2,7 +2,8 @@ import { singularOrPlural } from "../utils/fe/singular-or-plural.ts";
 import { useCount } from "../utils/fe/hooks/use-count.ts";
 
 export default () => {
-  const [count, handleCount] = useCount();
+  const [count, handleCount, pluralOrSingular, isPluralSingularChanged] =
+    useCount("night", "nights");
 
   return (
     <div className="inline-flex items-center justify-center w-full h-[15%] md:h-unset md:min-w-[136px] md:w-min">
@@ -15,7 +16,7 @@ export default () => {
           data-count-change="1"
         />
         <img
-          className="h-1/2"
+          className={`h-1/2 ${isPluralSingularChanged && "animate-flicker"}`}
           src="/day-night.svg"
           alt="Day or night"
         />
@@ -28,7 +29,7 @@ export default () => {
         />
       </div>
       <p className="text-white">
-        {count} {singularOrPlural(count, "night", "nights")}
+        {count} {pluralOrSingular}
       </p>
     </div>
   );
