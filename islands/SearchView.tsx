@@ -180,6 +180,20 @@ export default function SearchView(props: PageProps) {
           price={100}
         />
       </Carousel>
+
+      <div className="absolute bg-black flex bottom-0 w-full h-12">
+        <div className="flex items-center justify-end w-full">
+          <div className="flex items-center uppercase text-sm">
+            <span className="bg-white inline-block h-6 w-[2px] mr-1" />
+            <p className="inline-block text-white">| Powered by:</p>
+          </div>
+          <div className="grid grid-cols-3 place-items-center scale-75 -ml-6">
+            <img src="/ra.svg" alt="Resident Advisor" />
+            <img src="/kiwi.svg" alt="Kiwi.com" />
+            <img src="airbnb.svg" alt="AirBnb" />
+          </div>
+        </div>
+      </div>
     </>
   );
 }
