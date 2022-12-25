@@ -99,7 +99,7 @@ export default function SearchView(props: PageProps) {
           <NightsCounter />
 
           <button
-            className="flex items-center justify-center absolute w-14 h-14 -bottom-7 rounded-full bg-eggplant shadow-2xl shadow-[#50d71e] z-50"
+            className="flex items-center justify-center absolute w-14 h-14 -bottom-7 rounded-full bg-eggplant shadow-2xl shadow-[#50d71e] z-30"
             onClick={handleClick}
           >
             <img src="/search.svg" alt="Search magnifying glass" />
