@@ -38,7 +38,7 @@ export const SearchItem = (
 
   return (
     <div
-      className={`bg-white inline-flex flex-col justify-around shadow-2xl items-center rounded-2xl hover:cursor-pointer${
+      className={`bg-white inline-flex flex-col justify-around shadow-4xl items-center rounded-2xl hover:cursor-pointer${
         " " + className ?? ""
       }`}
       onClick={() => window.open(redirectUrl, "_blank")}

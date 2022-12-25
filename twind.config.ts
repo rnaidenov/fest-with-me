@@ -8,6 +8,10 @@ export default {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        "3xl": "0px 4px 4px rgba(0, 0, 0, 0.25)",
+        "4xl": "0px 4px 10px rgba(0, 0, 0, 0.25)",
+      },
       animation: {
         "in-from-left": "in-from-left 2s cubic-bezier(.19,1,.22,1) backwards",
         "fly": "fly 3s ease-in-out 0s infinite alternate",

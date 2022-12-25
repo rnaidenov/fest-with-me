@@ -8,6 +8,8 @@ import { searchAccommodation } from "../utils/fe/search-accommodation.ts";
 import PeopleCounter from "./PeopleCounter.tsx";
 import NightsCounter from "./NightsCounter.tsx";
 
+// TODO: Fix button active state
+
 export default function SearchView(props: PageProps) {
   const searchWrapRef = useRef();
   const [isSearching, setIsSearching] = useState(false);
@@ -53,8 +55,6 @@ export default function SearchView(props: PageProps) {
     const currencyFrom = currency;
     const currencyTo = e.target.dataset.currency;
 
-    console.log({ currency, currencyTo });
-
     const converted = await fetch("/api/currency", {
       method: "POST",
       headers: {
@@ -68,6 +68,7 @@ export default function SearchView(props: PageProps) {
     }).then((res) => res.json());
 
     setCurrency(currencyTo);
+    console.log(converted);
 
     // TODO:
     // setAirbnbData - change url
@@ -137,10 +138,14 @@ export default function SearchView(props: PageProps) {
           <NightsCounter />
 
           <button
-            className="flex items-center justify-center absolute w-14 h-14 -bottom-7 rounded-full bg-eggplant shadow-2xl shadow-[#50d71e] z-30"
+            className="flex items-center justify-center absolute w-12 h-12 -bottom-7 rounded-full bg-eggplant shadow-3xl z-30"
             onClick={handleClick}
           >
-            <img src="/search.svg" alt="Search magnifying glass" />
+            <img
+              src="/search.svg"
+              alt="Search magnifying glass"
+              className="scale-75"
+            />
           </button>
         </div>
       </div>
