@@ -11,12 +11,17 @@ export default {
       animation: {
         "in-from-left": "in-from-left 2s cubic-bezier(.19,1,.22,1) backwards",
         "fly": "fly 3s ease-in-out 0s infinite alternate",
-        "flicker": "flicker 300ms linear 0s",
+        "flicker": "flicker 300ms linear",
+        "fade-in": "fade-in 750ms ease-in-out",
       },
       keyframes: {
         ["in-from-left"]: {
           "0%": { transform: "translateX(-100vw)" },
           "100%": { transform: "translateX(0%)" },
+        },
+        ["fade-in"]: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
         ["fly"]: {
           "0%": { transform: "translate(5px, 5px) rotate(-1.25deg)" },

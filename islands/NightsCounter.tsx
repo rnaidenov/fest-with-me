@@ -17,7 +17,7 @@ export default () => {
         />
         <img
           className={`h-1/2 ${isPluralSingularChanged && "animate-flicker"}`}
-          src="/day-night.svg"
+          src={`/${pluralOrSingular}.svg`}
           alt="Day or night"
         />
         <img

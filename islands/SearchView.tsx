@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { PageProps } from "$fresh/server.ts";
 import { Box, Carousel, SearchItem, TextField } from "@components";
-import { QueryKey } from "../types.ts";
+import { CurrencyCode, QueryKey } from "../types.ts";
 import EventAutocomplete from "../islands/EventAutocomplete.tsx";
 import { searchFlights } from "../utils/fe/search-flights.ts";
 import { searchAccommodation } from "../utils/fe/search-accommodation.ts";
@@ -12,9 +12,10 @@ export default function SearchView(props: PageProps) {
   const searchWrapRef = useRef();
   const [isSearching, setIsSearching] = useState(false);
 
-  const [currency, setCurrency] = useState("GBP");
-  const [flightsData, setFlightsData] = useState(null);
-  const [accommodationData, setAccommodationData] = useState(null);
+  const [currency, setCurrency] = useState<CurrencyCode>(CurrencyCode.GBP);
+  const [eventData, setEventData] = useState({ price: 42 });
+  const [flightsData, setFlightsData] = useState({ price: 69 });
+  const [accommodationData, setAccommodationData] = useState({ price: 100 });
   // TODO: Event name and metadata!
   const [query, setQuery] = useState({
     [QueryKey.Origin]: "",
@@ -40,6 +41,43 @@ export default function SearchView(props: PageProps) {
 
     setAccommodationData(accommodationData);
     setIsSearching(false);
+  };
+
+  // TODO: Optimise - cache.
+  // TODO: Save last currency preference
+  const handleCurrencyChange = async (e) => {
+    const ticketPrice = eventData.price;
+    const flightsPrice = flightsData.price;
+    const accommodationPrice = accommodationData.price;
+
+    const currencyFrom = currency;
+    const currencyTo = e.target.dataset.currency;
+
+    console.log({ currency, currencyTo });
+
+    const converted = await fetch("/api/currency", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: currencyFrom,
+        to: currencyTo,
+        amounts: [ticketPrice, flightsPrice, accommodationPrice],
+      }),
+    }).then((res) => res.json());
+
+    setCurrency(currencyTo);
+
+    // TODO:
+    // setAirbnbData - change url
+    // setFlightsData - change url
+    setEventData((eventData) => ({ ...eventData, price: converted[0] }));
+    setFlightsData((flightsData) => ({ ...flightsData, price: converted[1] }));
+    setAccommodationData((accommodationData) => ({
+      ...accommodationData,
+      price: converted[2],
+    }));
   };
 
   const handleEventChange = (eventName: string, eventMetadataJSON: string) => {
@@ -139,7 +177,8 @@ export default function SearchView(props: PageProps) {
           redirectUrl="https://ra.co/events/1582415"
           icon="/tickets.svg"
           className="h-64 w-72"
-          price={42}
+          price={eventData.price}
+          currency={currency}
         />
         <SearchItem
           name="Flight"
@@ -147,7 +186,8 @@ export default function SearchView(props: PageProps) {
           icon="/flight.svg"
           iconStyles="animate-fly"
           className="h-64 w-72"
-          price={69}
+          price={flightsData.price}
+          currency={currency}
         />
         <SearchItem
           name="Rest"
@@ -155,7 +195,8 @@ export default function SearchView(props: PageProps) {
           icon="/house.svg"
           // TODO: Repetition
           className="h-64 w-72"
-          price={100}
+          price={accommodationData.price}
+          currency={currency}
         />
       </div>
 
@@ -164,24 +205,56 @@ export default function SearchView(props: PageProps) {
           name="Party"
           redirectUrl="https://ra.co/events/1582415"
           icon="/tickets.svg"
-          price={42}
+          price={eventData.price}
+          currency={currency}
         />
         <SearchItem
           name="Flight"
           redirectUrl="https://ra.co/events/1582415"
           icon="/flight.svg"
           iconStyles="animate-fly"
-          price={69}
+          price={flightsData.price}
+          currency={currency}
         />
         <SearchItem
           name="Rest"
           redirectUrl="https://ra.co/events/1582415"
           icon="/house.svg"
-          price={100}
+          price={accommodationData.price}
+          currency={currency}
         />
       </Carousel>
 
-      <div className="absolute bg-black flex bottom-0 w-full h-12">
+      <div className="absolute bg-black flex justify-between pl-12 bottom-0 w-full h-12">
+        <div className="grid grid-cols-3 gap-x-8 place-items-center text-lg">
+          <p
+            className={`transition-opacity duration-300 hover:cursor-pointer text-white opacity-${
+              currency === CurrencyCode.GBP ? 100 : 60
+            }`}
+            data-currency={CurrencyCode.GBP}
+            onClick={handleCurrencyChange}
+          >
+            £
+          </p>
+          <p
+            className={`transition-opacity duration-300 hover:cursor-pointer text-white opacity-${
+              currency === CurrencyCode.USD ? 100 : 60
+            }`}
+            data-currency={CurrencyCode.USD}
+            onClick={handleCurrencyChange}
+          >
+            $
+          </p>
+          <p
+            className={`transition-opacity duration-300 hover:cursor-pointer text-white opacity-${
+              currency === CurrencyCode.EUR ? 100 : 60
+            }`}
+            data-currency={CurrencyCode.EUR}
+            onClick={handleCurrencyChange}
+          >
+            €
+          </p>
+        </div>
         <div className="flex items-center justify-end w-full">
           <div className="flex items-center uppercase text-sm">
             <span className="bg-white inline-block h-6 w-[2px] mr-1" />

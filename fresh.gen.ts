@@ -3,10 +3,11 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/api/search/airbnb.ts";
-import * as $1 from "./routes/api/search/kiwi.ts";
-import * as $2 from "./routes/api/search/ra.ts";
-import * as $3 from "./routes/index.tsx";
+import * as $0 from "./routes/api/currency/index.ts";
+import * as $1 from "./routes/api/search/airbnb.ts";
+import * as $2 from "./routes/api/search/kiwi.ts";
+import * as $3 from "./routes/api/search/ra.ts";
+import * as $4 from "./routes/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/EventAutocomplete.tsx";
 import * as $$2 from "./islands/NightsCounter.tsx";
@@ -15,10 +16,11 @@ import * as $$4 from "./islands/SearchView.tsx";
 
 const manifest = {
   routes: {
-    "./routes/api/search/airbnb.ts": $0,
-    "./routes/api/search/kiwi.ts": $1,
-    "./routes/api/search/ra.ts": $2,
-    "./routes/index.tsx": $3,
+    "./routes/api/currency/index.ts": $0,
+    "./routes/api/search/airbnb.ts": $1,
+    "./routes/api/search/kiwi.ts": $2,
+    "./routes/api/search/ra.ts": $3,
+    "./routes/index.tsx": $4,
   },
   islands: {
     "./islands/Counter.tsx": $$0,
