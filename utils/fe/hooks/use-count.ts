@@ -29,7 +29,8 @@ export const useCount = (singular: string, plural: string) => {
       // TODO: Is this right?
       setTimeout(() => {
         setIsPluralSingularChanged(false);
-      }, 300);
+        // TODO: Const
+      }, 1000);
     };
   }, [singularOrPlural]);
 

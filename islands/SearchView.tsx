@@ -225,8 +225,8 @@ export default function SearchView(props: PageProps) {
         />
       </Carousel>
 
-      <div className="absolute bg-black flex justify-between pl-12 bottom-0 w-full h-12">
-        <div className="grid grid-cols-3 gap-x-8 place-items-center text-lg">
+      <div className="absolute bg-black flex bottom-0 w-full h-12 justify-center md:justify-between md:pl-12">
+        <div className="grid grid-cols-3 place-items-center text-lg gap-x-12 md:gap-x-8">
           <p
             className={`transition-opacity duration-300 hover:cursor-pointer text-white opacity-${
               currency === CurrencyCode.GBP ? 100 : 60
@@ -255,7 +255,7 @@ export default function SearchView(props: PageProps) {
             €
           </p>
         </div>
-        <div className="flex items-center justify-end w-full">
+        <div className="items-center justify-end w-full hidden md:flex">
           <div className="flex items-center uppercase text-sm">
             <span className="bg-white inline-block h-6 w-[2px] mr-1" />
             <p className="inline-block text-white">| Powered by:</p>

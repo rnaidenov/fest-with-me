@@ -28,7 +28,11 @@ export default () => {
           data-count-change="-1"
         />
       </div>
-      <p className="text-white">
+      <p
+        className={`text-white${
+          isPluralSingularChanged ? " animate-fade-in" : ""
+        }`}
+      >
         {count} {pluralOrSingular}
       </p>
     </div>

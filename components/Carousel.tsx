@@ -23,12 +23,14 @@ export const Carousel = ({ children, className }) => {
         " " + className ?? ""
       }`}
     >
-      <div className="absolute flex bottom-0 left-0 pl-2 items-center z-40 h-full hover:cursor-pointer">
+      <div
+        className="absolute flex bottom-0 left-0 pl-2 items-center z-40 h-full hover:cursor-pointer"
+        data-direction="left"
+        onClick={handleSelect}
+      >
         <img
           alt="Chevron left"
-          data-direction="left"
           src="/chevron-left.svg"
-          onClick={handleSelect}
           className="h-8 w-8 left-4"
         />
       </div>
@@ -37,14 +39,18 @@ export const Carousel = ({ children, className }) => {
         -translate-x-[${activeIdx * 100}%] h-full`}
       >
         {children.map((child) =>
-          cloneElement(child, { className: "w-full h-full" })
+          cloneElement(child, { className: "w-full h-full py-[10%]" })
         )}
       </div>
-      <div className="absolute flex bottom-0 right-0 pr-4 items-center z-40 h-full hover:cursor-pointer">
+
+      <div
+        className="absolute flex bottom-0 right-0 pr-4 items-center z-40 h-full hover:cursor-pointer"
+        data-direction="right"
+        onClick={handleSelect}
+      >
         <img
           alt="Chevron right"
           src="/chevron-right.svg"
-          data-direction="right"
           onClick={handleSelect}
           className="h-8 w-8 left-4"
         />
