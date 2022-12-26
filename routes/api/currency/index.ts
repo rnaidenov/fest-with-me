@@ -17,7 +17,9 @@ export const handler = async (req: Request, _ctx: HandlerContext): Response => {
 
     const converted = await Promise.all(
       amounts.map(async (amount: number) =>
-        Math.ceil(await new CC({ from, to, amount }).convert())
+        amount === 0
+          ? 0
+          : Math.ceil(await new CC({ from, to, amount }).convert())
       ),
     );
 

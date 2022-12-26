@@ -69,7 +69,7 @@ const query =
 
     const currencySymbol = CURRENCY_CODE_TO_SYMBOL_MAP[currency];
 
-    return avgPriceText.split(currencySymbol)[1].trim();
+    return Number(avgPriceText.split(currencySymbol)[1].trim());
   };
 
 const queryAirbnb = async (
@@ -101,19 +101,14 @@ const queryAirbnb = async (
   );
 
   return {
-    avgPriceTotal,
+    price: avgPriceTotal,
     avgPricePrivateRoom,
     avgPriceSharedRoom,
     avgPriceEntirePlace,
     url:
-      `https://www.airbnb.co.uk/s/homes?query=${city},${country}&checkin=${checkInDate}&checkout=${checkOutDate}&adults=${numPeople}`,
+      `https://www.airbnb.co.uk/s/homes?query=${city},${country}&checkin=${checkInDate}&checkout=${checkOutDate}&adults=${numPeople}&currency=${currency}`,
   };
 };
-
-// (async () => {
-//   const what = await queryAirbnb(currency, peopleCount, checkInDate, checkOutDate, city, country)
-//   console.log(what);
-// })();
 
 export const handler = async (req: Request, _ctx: HandlerContext): Response => {
   try {
@@ -143,6 +138,7 @@ export const handler = async (req: Request, _ctx: HandlerContext): Response => {
       city,
       country,
     );
+    console.log("🚀 ~ file: airbnb.ts:141 ~ handler ~ data", data);
 
     return new Response(JSON.stringify(data, {
       status: 200,

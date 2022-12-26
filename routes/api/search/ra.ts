@@ -19,19 +19,21 @@ const searchRA = async (searchTerm: string) => {
         "searchTerm": "${searchTerm}",
         "indices":["${RA_EVENT_INDEX}"]
       },
-        "query":"query GET_GLOBAL_SEARCH_RESULTS($searchTerm: String!, $indices: [IndexType!]) {search(searchTerm: $searchTerm, limit: 16, indices: $indices, includeNonLive: false) { searchType id value areaName countryName countryCode contentUrl date }}"
+        "query":"query GET_GLOBAL_SEARCH_RESULTS($searchTerm: String!, $indices: [IndexType!]) {search(searchTerm: $searchTerm, limit: 16, indices: $indices, includeNonLive: false) { searchType id value areaName clubName countryName countryCode contentUrl date }}"
       }
     `,
   }).then((res) => res.json());
 
   return eventsResponse.data.search.map((
-    { id, value, areaName, countryName, date, contentUrl },
+    { id, value, areaName, clubName, countryName, date, contentUrl },
   ) => ({
     id: id,
     name: value,
-    city: areaName,
+    clubName,
+    areaName,
     country: countryName,
     date: date,
+    price: 0,
     url: `${RA_HOST}${contentUrl}`,
   }));
 };
