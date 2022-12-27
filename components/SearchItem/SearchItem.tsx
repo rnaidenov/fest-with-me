@@ -1,5 +1,5 @@
 import Preact from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { CURRENCY_CODE_TO_SYMBOL_MAP } from "../../consts.ts";
 import { useFirstRender } from "../../utils/fe/hooks/use-first-render.ts";
 
@@ -20,21 +20,74 @@ interface SearchItemProps {
 export const SearchItem = (
   { name, price, redirectUrl, icon, iconStyles, currency, className },
 ) => {
-  const [hasCurrencyChanged, setHasCurrencyChanged] = useState(false);
+  const [customPrice, setCustomPrice] = useState("");
+  const [isEditingPrice, setIsEditingPrice] = useState(false);
+  const [canDiscardCustomPrice, setCanDiscardCustomPrice] = useState(true);
+  const [showDiscardCustomPrice, setShowDiscardCustomPrice] = useState(true);
+  const [hasPriceChangeOccured, setHasPriceChangeOccured] = useState(false);
 
   const isFirstRender = useFirstRender();
 
+  const customPriceInput = useRef(null);
+
+  const handlePriceChange = (e) => {
+    e.stopPropagation();
+    if (isEditingPrice) {
+      return;
+    }
+
+    setIsEditingPrice(true);
+  };
+
+  const handlePriceInputChange = (e) => {
+    const value = e.target.value;
+    if (typeof Number(value) !== "number") {
+      return;
+    }
+    setCustomPrice(value);
+  };
+
+  const handleDiscardCustomPrice = () => {
+    setCustomPrice("");
+    setIsEditingPrice(false);
+  };
+
   useEffect(() => {
-    if (isFirstRender === false) {
-      setHasCurrencyChanged(true);
+    if (isEditingPrice) {
+      customPriceInput.current.focus();
+    }
+  }, [isEditingPrice]);
+
+  useEffect(() => {
+    if (!canDiscardCustomPrice) {
+      setTimeout(() => {
+        setShowDiscardCustomPrice(false);
+      }, 500);
+    }
+  }, [canDiscardCustomPrice]);
+
+  useEffect(() => {
+    if (showDiscardCustomPrice) {
+      setTimeout(() => {
+        setCanDiscardCustomPrice(true);
+      });
+    }
+  }, [showDiscardCustomPrice]);
+
+  console.log(customPrice);
+
+  // TODO: usePriceChangeOccurence
+  useEffect(() => {
+    if (isFirstRender === false && customPrice === "") {
+      setHasPriceChangeOccured(true);
     }
 
     return () => {
       setTimeout(() => {
-        setHasCurrencyChanged(false);
+        setHasPriceChangeOccured(false);
       }, 750);
     };
-  }, [currency]);
+  }, [currency, customPrice]);
 
   return (
     <div
@@ -48,9 +101,40 @@ export const SearchItem = (
         <p className="text-2xl">{name}</p>
       </div>
       <img className={`h-20 w-20${" " + iconStyles ?? ""}`} src={icon} />
-      <p className={`text-2xl${hasCurrencyChanged ? " animate-fade-in" : ""}`}>
+      <p
+        className={`text-2xl${
+          hasPriceChangeOccured ? " animate-fade-in" : ""
+        } hover:cursor-text`}
+        onClick={handlePriceChange}
+      >
         {CURRENCY_CODE_TO_SYMBOL_MAP[currency]}
-        {price}
+        {isEditingPrice
+          ? (
+            <div className="inline-flex items-center">
+              <input
+                ref={customPriceInput}
+                value={customPrice}
+                onInput={handlePriceInputChange}
+                onFocus={() => setShowDiscardCustomPrice(true)}
+                onBlur={() => setCanDiscardCustomPrice(false)}
+                className={`w-[${String(customPrice).length}ch]`}
+              />
+              <img
+                src="/remove.svg"
+                alt="Remove"
+                onClick={handleDiscardCustomPrice}
+                className={`${
+                  showDiscardCustomPrice ? "inline-block" : "hidden"
+                }
+                  ${
+                  customPrice === "" || !canDiscardCustomPrice
+                    ? "opacity-0"
+                    : "opacity-60"
+                } ml-4 transition-opacity duration-1000 hover:cursor-pointer`}
+              />
+            </div>
+          )
+          : price}
       </p>
     </div>
   );
