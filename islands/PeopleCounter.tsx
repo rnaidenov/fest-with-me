@@ -1,11 +1,14 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 import { useCount } from "@fe-utils/hooks";
-import { singularOrPlural } from "../utils/fe/singular-or-plural.ts";
 
 // Common counter component?
-export default () => {
+export default ({ onUpdate }) => {
   const [count, handleCount, pluralOrSingular, isPluralSingularChanged] =
     useCount("person", "people");
+
+  useEffect(() => {
+    onUpdate(count);
+  }, [count]);
 
   return (
     <div className="inline-flex items-center justify-center w-full h-[15%]  md:h-unset md:pt-0 md:min-w-[136px] md:w-min">

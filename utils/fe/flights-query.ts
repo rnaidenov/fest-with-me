@@ -1,15 +1,14 @@
 import { FlightsQueryArgs } from "./types.ts";
 import { prepareFlightsQuery } from "./prepare-flights-query.ts";
 
-// TODO: Types
-export const searchFlights = (flightsQuery: FlightsQueryArgs) => {
+export const flightsQuery = (query: FlightsQueryArgs) => {
   try {
-    return fetch("/api/search/kiwi", {
+    return fetch("/api/search/flights", {
       "method": "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(prepareFlightsQuery(flightsQuery)),
+      body: JSON.stringify(prepareFlightsQuery(query)),
     }).then((res) => res.json());
   } catch (error: unknown) {
     console.error("- searchFlights error() -");

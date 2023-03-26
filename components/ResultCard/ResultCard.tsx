@@ -1,30 +1,23 @@
 import Preact from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
-import { CURRENCY_CODE_TO_SYMBOL_MAP } from "../../consts.ts";
+import { CurrencySymbol } from "../../consts.ts";
+import { CurrencyCode } from "../../types.ts";
 import { useFirstRender } from "../../utils/fe/hooks/use-first-render.ts";
 
-import { Box } from "../Box.tsx";
-
-// TODO: types
-interface SearchItemProps {
-  name: string;
-  price: number;
-  redirectUrl: string;
-  icon: Preact.PreactNode;
-  className: string;
-}
+import { ResultCardProps } from "./types.ts";
 
 // TODO: withClass fn
 // class to be optional!
 // {' ' + className ?? ''}`
-export const SearchItem = (
-  { name, price, redirectUrl, icon, iconStyles, currency, className },
-) => {
+export const ResultCard = (props: ResultCardProps) => {
   const [customPrice, setCustomPrice] = useState("");
   const [isEditingPrice, setIsEditingPrice] = useState(false);
   const [canDiscardCustomPrice, setCanDiscardCustomPrice] = useState(true);
   const [showDiscardCustomPrice, setShowDiscardCustomPrice] = useState(true);
   const [hasPriceChangeOccured, setHasPriceChangeOccured] = useState(false);
+
+  const { name, price, redirectUrl, icon, iconStyles, currency, className } =
+    props;
 
   const isFirstRender = useFirstRender();
 
@@ -41,9 +34,11 @@ export const SearchItem = (
 
   const handlePriceInputChange = (e) => {
     const value = e.target.value;
-    if (typeof Number(value) !== "number") {
+
+    if (isNaN(Number(value))) {
       return;
     }
+
     setCustomPrice(value);
   };
 
@@ -58,10 +53,12 @@ export const SearchItem = (
     }
   }, [isEditingPrice]);
 
+  // TODO: Make icon bigger
   useEffect(() => {
     if (!canDiscardCustomPrice) {
       setTimeout(() => {
         setShowDiscardCustomPrice(false);
+        // TODO: Const.
       }, 500);
     }
   }, [canDiscardCustomPrice]);
@@ -85,6 +82,7 @@ export const SearchItem = (
     return () => {
       setTimeout(() => {
         setHasPriceChangeOccured(false);
+        // TODO: Const
       }, 750);
     };
   }, [currency, customPrice]);
@@ -107,8 +105,8 @@ export const SearchItem = (
         } hover:cursor-text`}
         onClick={handlePriceChange}
       >
-        {CURRENCY_CODE_TO_SYMBOL_MAP[currency]}
-        {isEditingPrice
+        {CurrencySymbol[currency]}
+        {(isEditingPrice || customPrice === null)
           ? (
             <div className="inline-flex items-center">
               <input

@@ -11,6 +11,7 @@
     "twind/": "https://esm.sh/twind@0.16.17/",
     "@mui/material": "https://esm.sh/@mui/material@5.8.7?alias=react:preact/compat,react-dom:preact/compat",
     "@components": "./components/index.tsx",
+    "@config": "./config.ts",
     "@consts": "./consts.ts",
     "@types": "./types.ts",
     "date-fns": "https://esm.sh/date-fns@2.29.3",

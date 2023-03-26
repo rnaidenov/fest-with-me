@@ -1,7 +1,7 @@
-import { useState } from 'preact/hooks';
+import { useState } from "preact/hooks";
 import { PageProps } from "$fresh/server.ts";
-import { TextField } from '../components/TextField/TextField.tsx';
-
+import { TextField } from "../components/TextField/TextField.tsx";
+import { EventData } from "../types.ts";
 
 export default (props: PageProps) => {
   const [suggestions, setSuggestions] = useState([]);
@@ -14,19 +14,22 @@ export default (props: PageProps) => {
       return;
     }
 
-    const data = await fetch('/api/search/ra', {
-      method: 'POST',
+    const data = await fetch("/api/search/events", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query })
-    }).then(res => res.json());
+      body: JSON.stringify({ query }),
+    }).then((res) => res.json());
 
-    const normalizeData = (data) =>
-      data.map(({ name, ...metdata }) => ({ key: name, metadata: JSON.stringify(metdata) }));
+    const normalizeData = (data: EventData) =>
+      data.map(({ name, ...metdata }) => ({
+        key: name,
+        metadata: JSON.stringify(metdata),
+      }));
 
     setSuggestions(normalizeData(data));
-  }
+  };
 
   // TODO: test on empty input
   return (
@@ -37,5 +40,5 @@ export default (props: PageProps) => {
       suggestions={suggestions}
       onChange={props.onChange}
     />
-  )
-}
+  );
+};

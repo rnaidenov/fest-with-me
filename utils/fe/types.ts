@@ -1,5 +1,7 @@
+import { CurrencyCode } from "../../types.ts";
+
 export interface FlightsQueryArgs {
-  currency: string;
+  currency: CurrencyCode;
   origin: string;
   destination: string;
   numPeople: number;

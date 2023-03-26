@@ -3,7 +3,7 @@ import { useFirstRender } from "./use-first-render.ts";
 import { singularOrPlural as singularOrPluralFn } from "../singular-or-plural.ts";
 
 export const useCount = (singular: string, plural: string) => {
-  const [count, setcount] = useState<number>(1);
+  const [count, setCount] = useState<number>(1);
   const [isPluralSingularChanged, setIsPluralSingularChanged] = useState(false);
 
   const firstRender = useFirstRender();
@@ -15,7 +15,7 @@ export const useCount = (singular: string, plural: string) => {
     const { countChange } = e.target.dataset;
     const changeBy = Number(countChange);
 
-    setcount((currCount: number) =>
+    setCount((currCount: number) =>
       currCount + changeBy > 0 ? currCount + changeBy : 1
     );
   };

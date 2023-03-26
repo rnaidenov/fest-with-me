@@ -1,4 +1,5 @@
 import Preact from "preact";
+import { Footer } from "../Footer/Footer.tsx";
 
 export const Layout: Preact.FC<{ children: Preact.PreactNode }> = (
   { children },
@@ -8,6 +9,7 @@ export const Layout: Preact.FC<{ children: Preact.PreactNode }> = (
       <div className="absolute w-full h-[50vh] bg-hero-festival bg-cover shadow-3xl" />
       <div className="absolute w-full h-[50vh] bg-black opacity-20" />
       {children}
+      <Footer />
     </div>
   );
 };

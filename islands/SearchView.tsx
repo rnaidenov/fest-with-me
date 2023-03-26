@@ -1,106 +1,82 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { PageProps } from "$fresh/server.ts";
-import { Box, Carousel, SearchItem, TextField } from "@components";
-import { CurrencyCode, QueryKey } from "../types.ts";
+import { Box, Carousel, ResultCard, Results, TextField } from "@components";
+import {
+  AccommodationData,
+  CurrencyCode,
+  EventData,
+  FlightsData,
+  SearchRef,
+  SearchResults,
+} from "../types.ts";
 import EventAutocomplete from "../islands/EventAutocomplete.tsx";
-import { searchFlights } from "../utils/fe/search-flights.ts";
-import { searchAccommodation } from "../utils/fe/search-accommodation.ts";
+import { accommodationQuery, flightsQuery } from "../utils/fe/index.ts";
 import PeopleCounter from "./PeopleCounter.tsx";
 import NightsCounter from "./NightsCounter.tsx";
+import { Maybe, SearchStatus } from "../types.ts";
 
 // TODO: Fix button active state
 // TODO: Events on the same date
 // TODO: Events in the past
 // TODO: Events for which no flights
-enum SearchStatus {
-  SearchNotStarted = 0,
-  SearchStarted = 1,
-  SearchEnded = 2,
-}
 
 export default function SearchView(props: PageProps) {
   const searchWrapRef = useRef();
   const [searchStatus, setSearchStatus] = useState<SearchStatus>(
-    SearchStatus.SearchNotStarted,
+    // SearchStatus.SearchNotStarted,
+    SearchStatus.End,
   );
 
   const [currency, setCurrency] = useState<CurrencyCode>(CurrencyCode.GBP);
   const [eventData, setEventData] = useState(null);
   const [flightsData, setFlightsData] = useState(null);
   const [accommodationData, setAccommodationData] = useState(null);
+  // const [eventData, setEventData] = useState({ price: 42 });
+  // const [flightsData, setFlightsData] = useState({ price: 42 });
+  // const [accommodationData, setAccommodationData] = useState({ price: 42 });
   // TODO: Event name and metadata!
-  const [searchQuery, setSearchQuery] = useState({
-    [QueryKey.Origin]: "Sofia",
-    [QueryKey.NumPeople]: 1,
-    [QueryKey.EventName]: "",
-  });
+
+  const [searchRef, setSearchRef] = useState<Maybe<SearchRef>>(null);
+  const [results, setResults] = useState<Maybe<SearchResults>>(null);
 
   const handleClick = async (e) => {
-    setSearchStatus(SearchStatus.SearchStarted);
+    if (searchRef === null) {
+      return;
+    }
 
-    const flightsData = await searchFlights({
-      ...searchQuery,
-      destinationCity: searchQuery.destinationGeneral,
+    setSearchStatus(SearchStatus.InProgress);
+
+    console.log(
+      "🚀 ~ file: SearchView.tsx:55 ~ handleClick ~ searchRef:",
+      searchRef,
+    );
+
+    const { event, ...refWithoutEvent } = searchRef;
+
+    const flightsData = await flightsQuery({
+      // TODO: location.area + location.country
+      ...refWithoutEvent,
+      eventDate: searchRef.event.date,
       currency,
     });
     setFlightsData(flightsData);
 
-    const accommodationData = await searchAccommodation({
+    const accommodationData = await accommodationQuery({
       currency,
-      eventDate: searchQuery.eventDate,
-      numPeople: searchQuery.numPeople,
-      city: searchQuery.destinationSpecific,
+      eventDate: searchRef.event.date,
+      numPeople: searchRef.numPeople,
+      city: searchRef.destination.area,
+      country: searchRef.destination.country,
       dateTo: flightsData?.outboundDate,
       dateFrom: flightsData?.inboundDate,
-      country: searchQuery.destinationCountry,
     });
 
     setAccommodationData(accommodationData);
-    setSearchStatus(SearchStatus.SearchEnded);
-  };
-
-  // TODO: Optimise - cache.
-  // TODO: Save last currency preference
-  const handleCurrencyChange = async (e) => {
-    const currencyFrom = currency;
-    const currencyTo = e.target.dataset.currency;
-
-    if (currencyFrom === currencyTo) {
-      return;
-    }
-
-    // const ticketPrice = eventData.price;
-    const flightsPrice = flightsData.price;
-    const accommodationPrice = accommodationData.price;
-
-    const converted = await fetch("/api/currency", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: currencyFrom,
-        to: currencyTo,
-        amounts: [flightsPrice, accommodationPrice],
-      }),
-    }).then((res) => res.json());
-
-    setCurrency(currencyTo);
-
-    // TODO:
-    // setAirbnbData - change url
-    // setFlightsData - change url
-    setEventData((eventData) => ({ ...eventData, price: converted[0] }));
-    setFlightsData((flightsData) => ({
-      ...flightsData,
-      price: converted[1],
-      url: flightsData.url.replace(currencyFrom, currencyTo),
-    }));
-    setAccommodationData((accommodationData) => ({
-      ...accommodationData,
-      price: converted[2],
-      url: accommodationData.url.replace(currencyFrom, currencyTo),
-    }));
+    console.log(
+      "🚀 ~ file: SearchView.tsx:77 ~ handleClick ~ accommodationData:",
+      accommodationData,
+    );
+    setSearchStatus(SearchStatus.End);
   };
 
   const handleEventChange = (eventName: string, eventMetadataJSON: string) => {
@@ -108,40 +84,40 @@ export default function SearchView(props: PageProps) {
       return;
     }
 
-    const eventMetadata = JSON.parse(eventMetadataJSON);
+    const metadata = JSON.parse(eventMetadataJSON);
+    console.log(
+      "🚀 ~ file: SearchView.tsx:83 ~ handleEventChange ~ metadata:",
+      metadata,
+    );
 
-    // TODO: types
-    setEventData({
-      name: eventName,
-      url: eventMetadata.url,
-      price: 0,
-    });
-
-    // TODO: Fix any type
-    // TODO: Helpers
-    const normalizeEventQuery = (
-      eventName: string,
-      eventMetadataJSON: any,
-    ) => ({
-      [QueryKey.EventName]: eventName,
-      destinationGeneral: eventMetadataJSON.areaName,
-      destinationSpecific: eventMetadataJSON.clubName,
-      [QueryKey.DestinationCountry]: eventMetadataJSON.country,
-      [QueryKey.EventDate]: eventMetadataJSON.date,
-    });
-
-    setSearchQuery((searchQuery) => ({
-      ...searchQuery,
-      ...normalizeEventQuery(eventName, eventMetadata),
+    const { destination, ...eventData } = metadata;
+    console.log(searchRef);
+    setSearchRef((ref: SearchRef) => ({
+      ...ref,
+      destination,
+      event: eventData,
     }));
   };
 
-  const handleCommonChange = ({ target }) => {
-    setSearchQuery((searchQuery) => ({
-      ...searchQuery,
+  // TODO:
+  const handleCommonChange = ({ target }: any) => {
+    setSearchRef((ref: SearchRef) => ({
+      ...ref,
       [target.dataset.name]: target.value,
     }));
   };
+
+  const handlePeopleCountChange = (numPeople: number) => {
+    setSearchRef((ref: SearchRef) => ({
+      ...ref,
+      numPeople,
+    }));
+  };
+
+  console.log(
+    "🚀 ~ file: SearchView.tsx:170 ~ SearchView ~ searchStatus:",
+    searchStatus,
+  );
 
   return (
     <>
@@ -150,14 +126,14 @@ export default function SearchView(props: PageProps) {
         ref={searchWrapRef}
       >
         <div className="flex flex-col h-[50vh] items-center text-white justify-center h-10/12 md:pb-0 md:flex-row md:justify-around md:pt-48">
-          <PeopleCounter />
+          <PeopleCounter onUpdate={handlePeopleCountChange} />
           <p className="mx-2 my-2 md:my-0">
             going to
           </p>
           <EventAutocomplete
             className="w-11/12 min-h-[40px] md:w-80"
-            data-name={QueryKey.EventName}
-            value={searchQuery.eventName}
+            data-name="eventName"
+            value={searchRef?.event?.name ?? ""}
             onChange={handleEventChange}
           />
           <p className="mx-2 my-2 md:my-0">
@@ -166,8 +142,8 @@ export default function SearchView(props: PageProps) {
           <TextField
             className="w-11/12 min-h-[40px] md:w-48"
             type="text"
-            data-name={QueryKey.Origin}
-            value={searchQuery.origin}
+            data-name="origin"
+            value={searchRef?.origin ?? ""}
             onChange={handleCommonChange}
           />
           <p className="mx-2 my-2 md:my-0">
@@ -193,102 +169,16 @@ export default function SearchView(props: PageProps) {
           searchStatus === SearchStatus.SearchEnded ? "block" : "hidden"
         } h-full`}
       >
-        <div className="h-1/2 justify-around items-center hidden sm:flex animate-in-from-left">
-          <SearchItem
-            name="Party"
-            redirectUrl={eventData?.url}
-            icon="/tickets.svg"
-            className="h-64 w-72"
-            price={eventData?.price}
-            currency={currency}
-          />
-          <SearchItem
-            name="Flight"
-            redirectUrl={flightsData?.url}
-            icon="/flight.svg"
-            iconStyles="animate-fly"
-            className="h-64 w-72"
-            price={flightsData?.price}
-            currency={currency}
-          />
-          <SearchItem
-            name="Rest"
-            redirectUrl={accommodationData?.url}
-            icon="/house.svg"
-            // TODO: Repetition
-            className="h-64 w-72"
-            price={accommodationData?.price}
-            currency={currency}
-          />
-        </div>
-
-        <Carousel className="h-[50vh] block bg-white w-full sm:hidden">
-          <SearchItem
-            name="Party"
-            redirectUrl={eventData?.url}
-            icon="/tickets.svg"
-            price={eventData?.price}
-            currency={currency}
-          />
-          <SearchItem
-            name="Flight"
-            redirectUrl={flightsData?.url}
-            icon="/flight.svg"
-            iconStyles="animate-fly"
-            price={flightsData?.price}
-            currency={currency}
-          />
-          <SearchItem
-            name="Rest"
-            redirectUrl={accommodationData?.url}
-            icon="/house.svg"
-            price={accommodationData?.price}
-            currency={currency}
-          />
-        </Carousel>
-      </div>
-
-      <div className="absolute bg-black flex bottom-0 w-full h-12 justify-center md:justify-between md:pl-12">
-        <div className="grid grid-cols-3 place-items-center text-lg gap-x-12 md:gap-x-8">
-          <p
-            className={`transition-opacity duration-300 hover:cursor-pointer text-white opacity-${
-              currency === CurrencyCode.GBP ? 100 : 60
-            }`}
-            data-currency={CurrencyCode.GBP}
-            onClick={handleCurrencyChange}
-          >
-            £
-          </p>
-          <p
-            className={`transition-opacity duration-300 hover:cursor-pointer text-white opacity-${
-              currency === CurrencyCode.USD ? 100 : 60
-            }`}
-            data-currency={CurrencyCode.USD}
-            onClick={handleCurrencyChange}
-          >
-            $
-          </p>
-          <p
-            className={`transition-opacity duration-300 hover:cursor-pointer text-white opacity-${
-              currency === CurrencyCode.EUR ? 100 : 60
-            }`}
-            data-currency={CurrencyCode.EUR}
-            onClick={handleCurrencyChange}
-          >
-            €
-          </p>
-        </div>
-        <div className="items-center justify-end w-full hidden md:flex">
-          <div className="flex items-center uppercase text-sm">
-            <span className="bg-white inline-block h-6 w-[2px] mr-1" />
-            <p className="inline-block text-white">| Powered by:</p>
-          </div>
-          <div className="grid grid-cols-3 place-items-center scale-75 -ml-6">
-            <img src="/ra.svg" alt="Resident Advisor" />
-            <img src="/kiwi.svg" alt="Kiwi.com" />
-            <img src="airbnb.svg" alt="AirBnb" />
-          </div>
-        </div>
+        {searchStatus === SearchStatus.End
+          ? (
+            <Results
+              event={eventData}
+              flights={flightsData}
+              accommodation={accommodationData}
+              currency={currency}
+            />
+          )
+          : null}
       </div>
     </>
   );
