@@ -9,6 +9,7 @@ type BaseResultCardProps = {
   className?: string;
   iconStyles?: string;
   currency: CurrencyCode;
+  onPriceUpdate: (price: number) => void;
 };
 
 export type ResultCardProps =

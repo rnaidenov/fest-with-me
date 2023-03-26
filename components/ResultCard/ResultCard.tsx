@@ -10,14 +10,21 @@ import { ResultCardProps } from "./types.ts";
 // class to be optional!
 // {' ' + className ?? ''}`
 export const ResultCard = (props: ResultCardProps) => {
-  const [customPrice, setCustomPrice] = useState("");
   const [isEditingPrice, setIsEditingPrice] = useState(false);
   const [canDiscardCustomPrice, setCanDiscardCustomPrice] = useState(true);
   const [showDiscardCustomPrice, setShowDiscardCustomPrice] = useState(true);
   const [hasPriceChangeOccured, setHasPriceChangeOccured] = useState(false);
 
-  const { name, price, redirectUrl, icon, iconStyles, currency, className } =
-    props;
+  const {
+    name,
+    price,
+    redirectUrl,
+    icon,
+    iconStyles,
+    currency,
+    onPriceUpdate,
+    className,
+  } = props;
 
   const isFirstRender = useFirstRender();
 
@@ -39,11 +46,10 @@ export const ResultCard = (props: ResultCardProps) => {
       return;
     }
 
-    setCustomPrice(value);
+    onPriceUpdate(value);
   };
 
   const handleDiscardCustomPrice = () => {
-    setCustomPrice("");
     setIsEditingPrice(false);
   };
 
@@ -71,11 +77,8 @@ export const ResultCard = (props: ResultCardProps) => {
     }
   }, [showDiscardCustomPrice]);
 
-  console.log(customPrice);
-
-  // TODO: usePriceChangeOccurence
   useEffect(() => {
-    if (isFirstRender === false && customPrice === "") {
+    if (isFirstRender === false) {
       setHasPriceChangeOccured(true);
     }
 
@@ -85,7 +88,7 @@ export const ResultCard = (props: ResultCardProps) => {
         // TODO: Const
       }, 750);
     };
-  }, [currency, customPrice]);
+  }, [currency, price]);
 
   return (
     <div
@@ -106,16 +109,16 @@ export const ResultCard = (props: ResultCardProps) => {
         onClick={handlePriceChange}
       >
         {CurrencySymbol[currency]}
-        {(isEditingPrice || customPrice === null)
+        {(isEditingPrice || price === null)
           ? (
             <div className="inline-flex items-center">
               <input
                 ref={customPriceInput}
-                value={customPrice}
+                value={price}
                 onInput={handlePriceInputChange}
                 onFocus={() => setShowDiscardCustomPrice(true)}
                 onBlur={() => setCanDiscardCustomPrice(false)}
-                className={`w-[${String(customPrice).length}ch]`}
+                className={`w-[${String(price).length}ch]`}
               />
               <img
                 src="/remove.svg"
@@ -125,7 +128,7 @@ export const ResultCard = (props: ResultCardProps) => {
                   showDiscardCustomPrice ? "inline-block" : "hidden"
                 }
                   ${
-                  customPrice === "" || !canDiscardCustomPrice
+                  price === "" || !canDiscardCustomPrice
                     ? "opacity-0"
                     : "opacity-60"
                 } ml-4 transition-opacity duration-1000 hover:cursor-pointer`}

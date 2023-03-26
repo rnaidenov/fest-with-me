@@ -17,7 +17,7 @@ export type EventData = {
   date: string;
   url: string;
   price: number;
-}[];
+};
 
 export type FlightsData = {
   flyFrom: string;
@@ -29,11 +29,12 @@ export type FlightsData = {
 };
 
 export type AccommodationData = {
-  price: {
-    shared: number;
-    private: number;
-    semiPrivate: number;
-  };
+  price: number;
+  // price: {
+  //   shared: number;
+  //   private: number;
+  //   semiPrivate: number;
+  // };
   url: string;
 };
 
