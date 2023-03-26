@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { PageProps } from "$fresh/server.ts";
-import { Box, Carousel, ResultCard, Results, TextField } from "@components";
+import {
+  Box,
+  Carousel,
+  ResultCard,
+  Results,
+  SearchForm,
+  TextField,
+} from "@components";
 import {
   AccommodationData,
   CurrencyCode,
@@ -11,8 +18,6 @@ import {
 } from "../types.ts";
 import EventAutocomplete from "../islands/EventAutocomplete.tsx";
 import { accommodationQuery, flightsQuery } from "../utils/fe/index.ts";
-import PeopleCounter from "./PeopleCounter.tsx";
-import NightsCounter from "./NightsCounter.tsx";
 import { Maybe, SearchStatus } from "../types.ts";
 
 // TODO: Fix button active state
@@ -21,16 +26,40 @@ import { Maybe, SearchStatus } from "../types.ts";
 // TODO: Events for which no flights
 
 export default function SearchView(props: PageProps) {
-  const searchWrapRef = useRef();
+  // const searchWrapRef = useRef();
   const [searchStatus, setSearchStatus] = useState<SearchStatus>(
     // SearchStatus.SearchNotStarted,
     SearchStatus.End,
   );
 
   const [currency, setCurrency] = useState<CurrencyCode>(CurrencyCode.GBP);
-  const [eventData, setEventData] = useState(null);
-  const [flightsData, setFlightsData] = useState(null);
-  const [accommodationData, setAccommodationData] = useState(null);
+  // const [eventData, setEventData] = useState(null);
+  // const [flightsData, setFlightsData] = useState(null);
+  // const [accommodationData, setAccommodationData] = useState(null);
+
+  const [eventData, setEventData] = useState({
+    "id": "1671358",
+    "date": "2023-04-21T23:00:00.000",
+    "price": 0,
+    "url": "https://ra.co/events/1671358",
+  });
+  const [flightsData, setFlightsData] = useState({
+    "flyFrom": "SOF",
+    "flyTo": "VIE",
+    "price": 91,
+    "url":
+      "https://www.kiwi.com/deep?affilid=radoslavnaydenovfestwithme&currency=GBP&flightsId=0f5819ef4c120000ae65dbe0_0%7C19ef0f584c150000fe755a4e_0&from=SOF&lang=en&passengers=1&to=VIE&booking_token=EfotmxDXdjIdycKQuOgtGPXuq_o6H6Y95QoJqBORh1VS1FtYyj5BJgfdmaS19P-7wtTrzp-8Vjtfc9v2An9ZXeYjDaMjz9Pj4ac_b0DjyvuLNvfp1OrFjA67e5oUfLTvw8ZhqoA1SYW1PVtWoVRiD7iVWhnuZKC3YvzeWv0xTj9QRysp5y7O0FCMcuq2Gs8GCWNhnBzTQj-XAWggYE3bA9JV74xJmQb0fjukYihLI5QPtKEGnwUfFqysTIIGpOLg3srWPH_KWqMXdZsSe1SHcKrn48BDiMZHrpIfYsI71HnTxKLT6Z-_g_dYpL7V5XxfuSBH6XoVhKhJihyJUdgde166Hy2HEPHmqYq9ExRc6UmunnBs-CcoHh4Tdq8XWB-fi_ZUnfOhNSGQM9CYHdsVIr-QVrMSOVNBLLYlc3STNgJdUYWwJhnqjLrk7ukwh-mJCcx4FT2wI3Gm1b-fHq6_mry6Z10XA-OdERIfrLRDbSBI-oaOv0kiQfcIe0iH6fET8kWxcZve469sIZcrbBQEndarwckjVLAzV1EDtuWgXp248S3yKiyiVY2iaKi5Emn7Pu0mzOLBYdQHTWRiK1uU_QkxmYk-5feF2n027E7h6qc-lxM-mPoef-HsJh2gUWKlHVzJkzIIqwzs4O3H720nX8q26BvnLiHbRtrgmnPQI-kRh0FWz4b5EqRnpE58JLVfG3ypuFUW2tdumHBJWQjB3XPusqd4BZYzTl5qg3aGG6AyT-0eS_jHjQ5eDenlATgg1UrcGt1dvdLylkUux1niMMg==",
+    "inboundDate": "2023-04-27T15:20:00.000Z",
+    "outboundDate": "2023-04-30T11:20:00.000Z",
+  });
+  const [accommodationData, setAccommodationData] = useState({
+    "price": 173,
+    "avgPricePrivateRoom": 129,
+    "avgPriceSharedRoom": 42,
+    "avgPriceEntirePlace": 189,
+    "url":
+      "https://www.airbnb.co.uk/s/homes?query=Austria,Austria&checkin=2023-04-27T15:20:00.000Z&checkout=2023-04-30T11:20:00.000Z&adults=1&currency=GBP",
+  });
   // const [eventData, setEventData] = useState({ price: 42 });
   // const [flightsData, setFlightsData] = useState({ price: 42 });
   // const [accommodationData, setAccommodationData] = useState({ price: 42 });
@@ -39,26 +68,22 @@ export default function SearchView(props: PageProps) {
   const [searchRef, setSearchRef] = useState<Maybe<SearchRef>>(null);
   const [results, setResults] = useState<Maybe<SearchResults>>(null);
 
-  const handleClick = async (e) => {
+  const handleSubmit = async (searchRef: SearchRef) => {
     if (searchRef === null) {
       return;
     }
 
     setSearchStatus(SearchStatus.InProgress);
 
-    console.log(
-      "🚀 ~ file: SearchView.tsx:55 ~ handleClick ~ searchRef:",
-      searchRef,
-    );
-
     const { event, ...refWithoutEvent } = searchRef;
 
     const flightsData = await flightsQuery({
       // TODO: location.area + location.country
       ...refWithoutEvent,
-      eventDate: searchRef.event.date,
+      eventDate: event.date,
       currency,
     });
+
     setFlightsData(flightsData);
 
     const accommodationData = await accommodationQuery({
@@ -72,113 +97,27 @@ export default function SearchView(props: PageProps) {
     });
 
     setAccommodationData(accommodationData);
-    console.log(
-      "🚀 ~ file: SearchView.tsx:77 ~ handleClick ~ accommodationData:",
-      accommodationData,
-    );
+
     setSearchStatus(SearchStatus.End);
   };
 
-  const handleEventChange = (eventName: string, eventMetadataJSON: string) => {
-    if (eventMetadataJSON === undefined) {
-      return;
-    }
-
-    const metadata = JSON.parse(eventMetadataJSON);
-    console.log(
-      "🚀 ~ file: SearchView.tsx:83 ~ handleEventChange ~ metadata:",
-      metadata,
-    );
-
-    const { destination, ...eventData } = metadata;
-    console.log(searchRef);
-    setSearchRef((ref: SearchRef) => ({
-      ...ref,
-      destination,
-      event: eventData,
-    }));
-  };
-
-  // TODO:
-  const handleCommonChange = ({ target }: any) => {
-    setSearchRef((ref: SearchRef) => ({
-      ...ref,
-      [target.dataset.name]: target.value,
-    }));
-  };
-
-  const handlePeopleCountChange = (numPeople: number) => {
-    setSearchRef((ref: SearchRef) => ({
-      ...ref,
-      numPeople,
-    }));
-  };
-
-  console.log(
-    "🚀 ~ file: SearchView.tsx:170 ~ SearchView ~ searchStatus:",
-    searchStatus,
-  );
-
   return (
     <>
-      <div
-        className="relative w-full md:mx-auto md:w-10/12 xl:w-9/12"
-        ref={searchWrapRef}
-      >
-        <div className="flex flex-col h-[50vh] items-center text-white justify-center h-10/12 md:pb-0 md:flex-row md:justify-around md:pt-48">
-          <PeopleCounter onUpdate={handlePeopleCountChange} />
-          <p className="mx-2 my-2 md:my-0">
-            going to
-          </p>
-          <EventAutocomplete
-            className="w-11/12 min-h-[40px] md:w-80"
-            data-name="eventName"
-            value={searchRef?.event?.name ?? ""}
-            onChange={handleEventChange}
-          />
-          <p className="mx-2 my-2 md:my-0">
-            from
-          </p>
-          <TextField
-            className="w-11/12 min-h-[40px] md:w-48"
-            type="text"
-            data-name="origin"
-            value={searchRef?.origin ?? ""}
-            onChange={handleCommonChange}
-          />
-          <p className="mx-2 my-2 md:my-0">
-            for up to
-          </p>
-          <NightsCounter />
-
-          <button
-            className="flex items-center justify-center absolute w-12 h-12 -bottom-7 rounded-full bg-eggplant shadow-3xl z-30"
-            onClick={handleClick}
-          >
-            <img
-              src="/search.svg"
-              alt="Search magnifying glass"
-              className="scale-75"
-            />
-          </button>
-        </div>
-      </div>
+      <SearchForm
+        onSubmit={handleSubmit}
+        onEventChange={(event: EventData) => setEventData(event)}
+      />
 
       <div
-        className={`${
-          searchStatus === SearchStatus.SearchEnded ? "block" : "hidden"
-        } h-full`}
+        className={`h-full 
+        ${searchStatus === SearchStatus.End ? "block" : "hidden"}`}
       >
-        {searchStatus === SearchStatus.End
-          ? (
-            <Results
-              event={eventData}
-              flights={flightsData}
-              accommodation={accommodationData}
-              currency={currency}
-            />
-          )
-          : null}
+        <Results
+          event={eventData}
+          flights={flightsData}
+          accommodation={accommodationData}
+          currency={currency}
+        />
       </div>
     </>
   );
