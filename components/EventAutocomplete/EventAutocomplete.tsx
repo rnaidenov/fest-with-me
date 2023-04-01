@@ -6,7 +6,6 @@ import { normalizeEventData } from "./utils/normalize-event-data.ts";
 import { EventAutocompleteProps } from "./types.ts";
 
 export const EventAutocomplete = (props: EventAutocompleteProps) => {
-  console.log("🚀 ~ file: EventAutocomplete.tsx:7 ~ props:", props.value);
   const [suggestions, setSuggestions] = useState([]);
 
   const handleInput = async (e) => {

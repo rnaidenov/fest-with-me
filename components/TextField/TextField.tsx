@@ -96,10 +96,9 @@ export const TextField = (props) => {
               <li
                 tabIndex={0}
                 data-index={idx}
+                onClick={onSelect}
                 data-sugggestion-metadata={suggestion.metadata}
                 className={`text-black p-2 border-bottom bg-transparent transition-colors duration-500 outline-[pin-gin-darker] focus:bg-pink-gin`}
-                onClick={onSelect}
-                onFocus={(e) => console.log(`${e.target.value} is focused.`)}
               >
                 {suggestion?.key}
               </li>

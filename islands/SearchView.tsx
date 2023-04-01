@@ -112,10 +112,6 @@ export default function SearchView(props: PageProps) {
         amounts,
       }),
     }).then((res) => res.json());
-    console.log(
-      "🚀 ~ file: SearchView.tsx:115 ~ SearchView ~ converted:",
-      converted,
-    );
 
     // TODO:
     // setAirbnbData - change url

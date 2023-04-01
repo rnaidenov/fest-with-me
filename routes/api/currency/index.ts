@@ -1,4 +1,3 @@
-import { Handlers } from "$fresh/server.ts";
 import CC from "currency-converter";
 
 export const handler = async (req: Request, _ctx: HandlerContext): Response => {
@@ -6,12 +5,6 @@ export const handler = async (req: Request, _ctx: HandlerContext): Response => {
     const body = await req.json();
 
     const { from, to, amounts } = body;
-
-    let currencyConverter = new CC({ from: "USD", to: "JPY", amount: 100 });
-
-    currencyConverter.convert().then((result) => {
-      console.log(result);
-    });
 
     const converted = await Promise.all(
       amounts.map(async (amount: number) =>

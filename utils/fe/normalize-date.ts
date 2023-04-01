@@ -12,12 +12,13 @@ export const normalizeDate = (
       newDateFormat.length > 0;
 
     if (daysToChangeBy.length > 0) {
+      // TODO:
       const sese = daysToChangeBy.map((dayDifference: number) =>
         shouldFormat
           ? format(addDays(date, dayDifference), newDateFormat)
           : addDays(date, dayDifference)
       );
-      console.log("🚀 ~ file: normalize-date.ts ~ line 20 ~ sese", sese);
+
       return sese;
     } else if (shouldFormat) {
       return [format(date, newDateFormat)];

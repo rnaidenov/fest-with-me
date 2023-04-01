@@ -24,7 +24,6 @@ export const SearchView = () => {
   );
 
   const { currency } = useContext(CurrencyContext);
-  console.log("🚀 ~ file: SearchView.tsx:36 ~ SearchView ~ currency:", currency);
   // const [eventData, setEventData] = useState(null);
   // const [flightsData, setFlightsData] = useState(null);
   // const [accommodationData, setAccommodationData] = useState(null);
