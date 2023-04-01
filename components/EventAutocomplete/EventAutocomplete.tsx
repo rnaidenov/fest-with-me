@@ -1,9 +1,12 @@
 import { useState } from "preact/hooks";
 import { PageProps } from "$fresh/server.ts";
-import { TextField } from "../components/TextField/TextField.tsx";
-import { EventData } from "../types.ts";
+import { TextField } from "../TextField/TextField.tsx";
+import { EventData } from "../../types.ts";
+import { normalizeEventData } from "./utils/normalize-event-data.ts";
+import { EventAutocompleteProps } from "./types.ts";
 
-export default (props: PageProps) => {
+export const EventAutocomplete = (props: EventAutocompleteProps) => {
+  console.log("🚀 ~ file: EventAutocomplete.tsx:7 ~ props:", props.value);
   const [suggestions, setSuggestions] = useState([]);
 
   const handleInput = async (e) => {
@@ -22,23 +25,15 @@ export default (props: PageProps) => {
       body: JSON.stringify({ query }),
     }).then((res) => res.json());
 
-    const normalizeData = (data: EventData) =>
-      data.map(({ name, ...metdata }) => ({
-        key: name,
-        metadata: JSON.stringify(metdata),
-      }));
-
-    setSuggestions(normalizeData(data));
+    setSuggestions(normalizeEventData(data));
   };
 
-  // TODO: test on empty input
   return (
     <TextField
       {...props}
       autocomplete
       onInput={handleInput}
       suggestions={suggestions}
-      onChange={props.onChange}
     />
   );
 };

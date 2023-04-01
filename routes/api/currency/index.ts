@@ -6,6 +6,13 @@ export const handler = async (req: Request, _ctx: HandlerContext): Response => {
     const body = await req.json();
 
     const { from, to, amounts } = body;
+
+    let currencyConverter = new CC({ from: "USD", to: "JPY", amount: 100 });
+
+    currencyConverter.convert().then((result) => {
+      console.log(result);
+    });
+
     const converted = await Promise.all(
       amounts.map(async (amount: number) =>
         (isNaN(Number(amount)) || amount === 0) ? 0 : Math.round(

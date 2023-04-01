@@ -75,6 +75,8 @@ export default {
       },
       colors: {
         "eggplant": "#5E4352",
+        "pink-gin": "#F2D6D6",
+        "pink-gin-darker": "#E6C2C2",
       },
     },
   },

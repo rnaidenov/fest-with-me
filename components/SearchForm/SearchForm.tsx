@@ -1,6 +1,6 @@
 import Preact from "preact";
 import { useState } from "preact/hooks";
-import EventAutocomplete from "../../islands/EventAutocomplete.tsx";
+import { EventAutocomplete } from "../EventAutocomplete/EventAutocomplete.tsx";
 import { SearchRef } from "../../types.ts";
 import { NumberInput } from "../NumberInput/NumberInput.tsx";
 import { TextField } from "../TextField/TextField.tsx";
@@ -8,10 +8,6 @@ import { SearchFormProps } from "./types.ts";
 
 export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
   const [searchRef, setSearchRef] = useState<SearchRef>({});
-  console.log(
-    "🚀 ~ file: SearchForm.tsx:12 ~ SearchForm ~ searchRef:",
-    searchRef,
-  );
 
   const handleCommonChange =
     (searchRefProp: keyof SearchRef) =>
@@ -35,7 +31,10 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
     setSearchRef((ref: SearchRef) => ({
       ...ref,
       destination,
-      event: eventData,
+      event: {
+        ...eventData,
+        name: eventName,
+      },
     }));
   };
 

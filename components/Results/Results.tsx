@@ -1,9 +1,9 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { ResultsDesktop } from "./ResultsDesktop.tsx";
 import { ResultsMobile } from "./ResultsMobile.tsx";
 import { ResultsProps } from "./types.ts";
 
-export const Results = (results: ResultsProps) => {
+export const Results = (results: Omit<ResultsProps, "onPriceUpdate">) => {
   const [resultsData, setResultsData] = useState(results);
 
   const handlePriceUpdate =
@@ -17,6 +17,10 @@ export const Results = (results: ResultsProps) => {
         },
       }));
     };
+
+  useEffect(() => {
+    setResultsData(results);
+  }, [results]);
 
   return (
     <>

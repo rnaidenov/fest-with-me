@@ -1,7 +1,7 @@
-import Preact from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { CurrencySymbol } from "../../consts.ts";
 import { CurrencyCode } from "../../types.ts";
+import { CurrencyContext } from "../../context/CurrencyContext.ts";
 import { useFirstRender } from "../../utils/fe/hooks/use-first-render.ts";
 
 import { ResultCardProps } from "./types.ts";
@@ -10,21 +10,23 @@ import { ResultCardProps } from "./types.ts";
 // class to be optional!
 // {' ' + className ?? ''}`
 export const ResultCard = (props: ResultCardProps) => {
-  const [isEditingPrice, setIsEditingPrice] = useState(false);
-  const [canDiscardCustomPrice, setCanDiscardCustomPrice] = useState(true);
-  const [showDiscardCustomPrice, setShowDiscardCustomPrice] = useState(true);
-  const [hasPriceChangeOccured, setHasPriceChangeOccured] = useState(false);
-
   const {
     name,
     price,
     redirectUrl,
     icon,
     iconStyles,
-    currency,
     onPriceUpdate,
     className,
   } = props;
+
+  const [isEditingPrice, setIsEditingPrice] = useState(false);
+  const [canDiscardCustomPrice, setCanDiscardCustomPrice] = useState(true);
+  const [showDiscardCustomPrice, setShowDiscardCustomPrice] = useState(true);
+  const [hasPriceChanged, setHasPriceChanged] = useState(false);
+  const [hasCurrencyChanged, setHasCurrencyChanged] = useState(false);
+
+  const currency = CurrencyContext.currency.value;
 
   const isFirstRender = useFirstRender();
 
@@ -79,19 +81,29 @@ export const ResultCard = (props: ResultCardProps) => {
 
   useEffect(() => {
     if (isFirstRender === false) {
-      setHasPriceChangeOccured(true);
+      setHasPriceChanged(true);
     }
 
     return () => {
       setTimeout(() => {
-        setHasPriceChangeOccured(false);
+        setHasPriceChanged(false);
+        setHasCurrencyChanged(false);
         // TODO: Const
       }, 750);
     };
-  }, [currency, price]);
+  }, [price]);
+
+  useEffect(() => {
+    if (
+      currency.prev !== null && currency.prev !== currency.active && price !== 0
+    ) {
+      setHasCurrencyChanged(true);
+    }
+  }, [currency]);
 
   return (
     <div
+      {...props}
       className={`bg-white inline-flex flex-col justify-around shadow-4xl items-center rounded-2xl hover:cursor-pointer${
         " " + className ?? ""
       }`}
@@ -104,11 +116,11 @@ export const ResultCard = (props: ResultCardProps) => {
       <img className={`h-20 w-20${" " + iconStyles ?? ""}`} src={icon} />
       <p
         className={`text-2xl${
-          hasPriceChangeOccured ? " animate-fade-in" : ""
+          hasPriceChanged ? " animate-fade-in" : ""
         } hover:cursor-text`}
         onClick={handlePriceChange}
       >
-        {CurrencySymbol[currency]}
+        {CurrencySymbol[currency.active]}
         {(isEditingPrice || price === null)
           ? (
             <div className="inline-flex items-center">
@@ -135,7 +147,11 @@ export const ResultCard = (props: ResultCardProps) => {
               />
             </div>
           )
-          : price}
+          : (
+            <span className={hasCurrencyChanged ? "animate-pulse" : null}>
+              {price}
+            </span>
+          )}
       </p>
     </div>
   );

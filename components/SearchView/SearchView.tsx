@@ -1,29 +1,33 @@
-import { useEffect, useRef, useState } from "preact/hooks";
-import { PageProps } from "$fresh/server.ts";
+import { useContext, useEffect, useState } from "preact/hooks";
 import { Results, SearchForm } from "@components";
 import {
-  AccommodationData,
   CurrencyCode,
   EventData,
-  FlightsData,
+  Maybe,
   SearchRef,
   SearchResults,
-} from "../types.ts";
-import { accommodationQuery, flightsQuery } from "../utils/fe/index.ts";
-import { Maybe, SearchStatus } from "../types.ts";
-import { CurrencyContext } from "../context/CurrencyContext.ts";
+} from "../../types.ts";
+import { accommodationQuery, flightsQuery } from "../../utils/fe/index.ts";
+import { CurrencyContext } from "../CurrencyProvider/CurrencyContext.tsx";
+import { SearchStatus } from "../../types.ts";
 
 // TODO: Fix button active state
 // TODO: Events on the same date
 // TODO: Events in the past
 // TODO: Events for which no flights
 
-export default function SearchView(props: PageProps) {
+export const SearchView = () => {
   // const searchWrapRef = useRef();
   const [searchStatus, setSearchStatus] = useState<SearchStatus>(
     // SearchStatus.SearchNotStarted,
     SearchStatus.End,
   );
+
+  const { currency } = useContext(CurrencyContext);
+  console.log("🚀 ~ file: SearchView.tsx:36 ~ SearchView ~ currency:", currency);
+  // const [eventData, setEventData] = useState(null);
+  // const [flightsData, setFlightsData] = useState(null);
+  // const [accommodationData, setAccommodationData] = useState(null);
 
   const [eventData, setEventData] = useState({
     "id": "1671358",
@@ -55,8 +59,6 @@ export default function SearchView(props: PageProps) {
 
   const [searchRef, setSearchRef] = useState<Maybe<SearchRef>>(null);
   const [results, setResults] = useState<Maybe<SearchResults>>(null);
-
-  const currency = CurrencyContext.currency.value;
 
   const handleSubmit = async (searchRef: SearchRef) => {
     if (searchRef === null) {
@@ -101,7 +103,7 @@ export default function SearchView(props: PageProps) {
       return;
     }
 
-    const converted = await fetch("/api/currency", {
+    return await fetch("/api/currency", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -112,38 +114,17 @@ export default function SearchView(props: PageProps) {
         amounts,
       }),
     }).then((res) => res.json());
-    console.log(
-      "🚀 ~ file: SearchView.tsx:115 ~ SearchView ~ converted:",
-      converted,
-    );
-
-    // TODO:
-    // setAirbnbData - change url
-    // setFlightsData - change url
-    setEventData((eventData: EventData) => ({
-      ...eventData,
-      price: converted[0],
-    }));
-    setFlightsData((flightsData: FlightsData) => ({
-      ...flightsData,
-      price: converted[1],
-    }));
-    setAccommodationData((accommodationData: AccommodationData) => ({
-      ...accommodationData,
-      price: converted[2],
-    }));
   };
 
   useEffect(() => {
-    // TODO: Probs will need to check for valid prices as well
-    if (currency.prev !== null && currency.active !== null) {
+    if (currency !== undefined) {
       onCurrencyChange(
         currency.prev,
         currency.active,
         [eventData.price, flightsData.price, accommodationData.price],
       );
     }
-  }, [currency.prev]);
+  }, [currency]);
 
   return (
     <>
@@ -165,4 +146,4 @@ export default function SearchView(props: PageProps) {
       </div>
     </>
   );
-}
+};

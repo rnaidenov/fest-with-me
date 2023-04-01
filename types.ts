@@ -1,3 +1,5 @@
+import Preact from "preact";
+
 export enum CurrencyCode {
   "GBP" = "GBP",
   "USD" = "USD",
@@ -91,3 +93,5 @@ export enum SearchStatus {
   InProgress = 1,
   End = 2,
 }
+
+export type FCWithChildren = Preact.FC<{ children?: Preact.PreactNode }>;

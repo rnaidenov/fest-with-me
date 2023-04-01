@@ -1,11 +1,14 @@
+import { useState } from "preact/hooks";
 import { PageProps } from "$fresh/server.ts";
+import { CurrencyProvider, Layout } from "@components";
 import SearchView from "../islands/SearchView.tsx";
-import { Layout } from "../components/index.tsx";
 
 export default function Index(props: PageProps) {
   return (
-    <Layout>
-      <SearchView />
-    </Layout>
+    <CurrencyProvider>
+      <Layout>
+        <SearchView />
+      </Layout>
+    </CurrencyProvider>
   );
 }

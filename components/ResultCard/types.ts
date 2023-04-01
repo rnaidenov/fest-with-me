@@ -7,8 +7,8 @@ type BaseResultCardProps = {
   redirectUrl: string | undefined;
   icon: Preact.PreactNode;
   className?: string;
+  style?: Record<string, unknown>;
   iconStyles?: string;
-  currency: CurrencyCode;
   onPriceUpdate: (price: number) => void;
 };
 

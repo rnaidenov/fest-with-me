@@ -1,6 +1,5 @@
 import {
   AccommodationData,
-  CurrencyCode,
   EventData,
   FlightsData,
   Maybe,
@@ -13,5 +12,12 @@ export interface ResultsProps {
   onPriceUpdate: (
     field: "event" | "flights" | "accommodation",
   ) => (price: number) => void;
-  currency: CurrencyCode;
+}
+
+export interface ResultCardData {
+  name: string;
+  redirectUrl: string | undefined;
+  icon: string;
+  price: number | undefined;
+  priceKey: "event" | "flights" | "accommodation";
 }

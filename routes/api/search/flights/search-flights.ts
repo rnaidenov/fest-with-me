@@ -13,7 +13,7 @@ export const searchFlights = async ({
   const originCode = await getCityCode(origin);
 
   // TODO: Use country if it fails with destination city
-  const destinationCode = await getCityCode(destination.area as string);
+  const destinationCode = await getCityCode(destination.city as string);
 
   // TODO: What if event is today / tomorrow
   const url = buildUrl({

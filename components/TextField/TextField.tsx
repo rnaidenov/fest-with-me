@@ -16,6 +16,11 @@ export const TextField = (props) => {
   const shouldShowAutocomplete = props.autocomplete &&
     props.suggestions?.length > 0 && showSuggestions;
 
+  const handleInput = (e) => {
+    setValue(e.target.value);
+    props.onInput?.(e);
+  }
+
   const onSelect = () => {
     const focusedEl = document.activeElement;
 
@@ -71,26 +76,27 @@ export const TextField = (props) => {
         ref={textFieldWrap}
         {...props}
         type="text"
+        onInput={handleInput}
         placeholder={props.label ?? ""}
         onFocus={() => setShowSuggestions(true)}
         value={value}
         // data-metadata={ }
         // onBlur={() => setIsFocused(false)}
         className={`mt-1 h-10 block w-full text-black rounded${
-          shouldShowAutocomplete ? "-t" : ""
-        }-lg hover:border-green-50 px-4 sm:text-sm drop-shadow-xl shadow-black :focus-visible-border-0`}
+          shouldShowAutocomplete ? "-t border-t-2 border-x-2 border-solid border-[pink-gin-darker]" : ""
+        }-lg hover:border-green-50 px-4 sm:text-sm drop-shadow-xl shadow-black`}
       />
 
       {shouldShowAutocomplete &&
         (
-          <ul className="suggestions bg-white absolute w-full z-40">
+          <ul className="suggestions bg-white rounded-b-lg border-x-2 border-b-2 border-solid border-[pink-gin-darker] absolute w-full z-40">
             {props.suggestions.map((suggestion, idx) => (
               <li
                 tabIndex={0}
                 data-index={idx}
                 data-sugggestion-metadata={suggestion.metadata}
-                className={`text-black p-2`}
-                onClick={() => onSelect()}
+                className={`text-black p-2 border-bottom bg-transparent transition-colors duration-500 outline-[pin-gin-darker] focus:bg-pink-gin`}
+                onClick={onSelect}
                 onFocus={(e) => console.log(`${e.target.value} is focused.`)}
               >
                 {suggestion?.key}

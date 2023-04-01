@@ -3,7 +3,7 @@ import { ResultCard } from "../ResultCard/ResultCard.tsx";
 import { ResultsProps } from "./types.ts";
 
 export const ResultsMobile = (
-  { event, flights, accommodation, currency, onPriceUpdate }: ResultsProps,
+  { event, flights, accommodation, onPriceUpdate }: ResultsProps,
 ) => (
   <Carousel className="h-[50vh] block bg-white w-full md:hidden">
     <ResultCard
@@ -11,7 +11,6 @@ export const ResultsMobile = (
       redirectUrl={event?.url}
       icon="/tickets.svg"
       price={event?.price}
-      currency={currency}
       onPriceUpdate={onPriceUpdate}
     />
     <ResultCard
@@ -20,7 +19,6 @@ export const ResultsMobile = (
       icon="/flight.svg"
       iconStyles="animate-fly"
       price={flights?.price}
-      currency={currency}
       onPriceUpdate={onPriceUpdate}
     />
     <ResultCard
@@ -28,7 +26,6 @@ export const ResultsMobile = (
       redirectUrl={accommodation?.url}
       icon="/house.svg"
       price={accommodation?.price}
-      currency={currency}
       onPriceUpdate={onPriceUpdate}
     />
   </Carousel>
