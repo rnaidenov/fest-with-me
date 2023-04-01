@@ -10,10 +10,10 @@ const currency = signal({ prev: null, active: null });
 
 const changeCurrency = (update: CurrencyCode) => {
   currency.value = { prev: currency.value.active, active: update };
-  localStorage.setItem(LS_ACTIVE_CURRENCY_KEY, update);
+  localStorage?.setItem(LS_ACTIVE_CURRENCY_KEY, update);
 };
 
-const currencyPreference = localStorage.getItem(
+const currencyPreference = localStorage?.getItem(
   LS_ACTIVE_CURRENCY_KEY,
 ) as Maybe<CurrencyCode>;
 
