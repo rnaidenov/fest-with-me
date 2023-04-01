@@ -3,31 +3,53 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/api/currency/index.ts";
-import * as $1 from "./routes/api/search/airbnb.ts";
-import * as $2 from "./routes/api/search/kiwi.ts";
-import * as $3 from "./routes/api/search/ra.ts";
-import * as $4 from "./routes/index.tsx";
-import * as $$0 from "./islands/Counter.tsx";
-import * as $$1 from "./islands/EventAutocomplete.tsx";
-import * as $$2 from "./islands/NightsCounter.tsx";
-import * as $$3 from "./islands/PeopleCounter.tsx";
-import * as $$4 from "./islands/SearchView.tsx";
+import * as $0 from "./routes/_app.tsx";
+import * as $1 from "./routes/api/currency/index.ts";
+import * as $2 from "./routes/api/search/accommodation/index.ts";
+import * as $3 from "./routes/api/search/accommodation/prepare-query.ts";
+import * as $4 from "./routes/api/search/accommodation/results-url.ts";
+import * as $5 from "./routes/api/search/accommodation/search-accommodation.ts";
+import * as $6 from "./routes/api/search/accommodation/search-url.ts";
+import * as $7 from "./routes/api/search/accommodation/types.ts";
+import * as $8 from "./routes/api/search/events/index.ts";
+import * as $9 from "./routes/api/search/events/normalize-event-data.ts";
+import * as $10 from "./routes/api/search/events/search-events.ts";
+import * as $11 from "./routes/api/search/events/types.ts";
+import * as $12 from "./routes/api/search/flights/build-url.ts";
+import * as $13 from "./routes/api/search/flights/consts.ts";
+import * as $14 from "./routes/api/search/flights/flights-data-from.ts";
+import * as $15 from "./routes/api/search/flights/get-city-code.ts";
+import * as $16 from "./routes/api/search/flights/index.ts";
+import * as $17 from "./routes/api/search/flights/search-flights.ts";
+import * as $18 from "./routes/index.tsx";
+import * as $$0 from "./islands/Footer.tsx";
+import * as $$1 from "./islands/SearchView.tsx";
 
 const manifest = {
   routes: {
-    "./routes/api/currency/index.ts": $0,
-    "./routes/api/search/airbnb.ts": $1,
-    "./routes/api/search/kiwi.ts": $2,
-    "./routes/api/search/ra.ts": $3,
-    "./routes/index.tsx": $4,
+    "./routes/_app.tsx": $0,
+    "./routes/api/currency/index.ts": $1,
+    "./routes/api/search/accommodation/index.ts": $2,
+    "./routes/api/search/accommodation/prepare-query.ts": $3,
+    "./routes/api/search/accommodation/results-url.ts": $4,
+    "./routes/api/search/accommodation/search-accommodation.ts": $5,
+    "./routes/api/search/accommodation/search-url.ts": $6,
+    "./routes/api/search/accommodation/types.ts": $7,
+    "./routes/api/search/events/index.ts": $8,
+    "./routes/api/search/events/normalize-event-data.ts": $9,
+    "./routes/api/search/events/search-events.ts": $10,
+    "./routes/api/search/events/types.ts": $11,
+    "./routes/api/search/flights/build-url.ts": $12,
+    "./routes/api/search/flights/consts.ts": $13,
+    "./routes/api/search/flights/flights-data-from.ts": $14,
+    "./routes/api/search/flights/get-city-code.ts": $15,
+    "./routes/api/search/flights/index.ts": $16,
+    "./routes/api/search/flights/search-flights.ts": $17,
+    "./routes/index.tsx": $18,
   },
   islands: {
-    "./islands/Counter.tsx": $$0,
-    "./islands/EventAutocomplete.tsx": $$1,
-    "./islands/NightsCounter.tsx": $$2,
-    "./islands/PeopleCounter.tsx": $$3,
-    "./islands/SearchView.tsx": $$4,
+    "./islands/Footer.tsx": $$0,
+    "./islands/SearchView.tsx": $$1,
   },
   baseUrl: import.meta.url,
   config,
