@@ -19,7 +19,7 @@ export const TextField = (props) => {
   const handleInput = (e) => {
     setValue(e.target.value);
     props.onInput?.(e);
-  }
+  };
 
   const onSelect = () => {
     const focusedEl = document.activeElement;
@@ -83,8 +83,10 @@ export const TextField = (props) => {
         // data-metadata={ }
         // onBlur={() => setIsFocused(false)}
         className={`mt-1 h-10 block w-full text-black rounded${
-          shouldShowAutocomplete ? "-t border-t-2 border-x-2 border-solid border-[pink-gin-darker]" : ""
-        }-lg hover:border-green-50 px-4 sm:text-sm drop-shadow-xl shadow-black`}
+          shouldShowAutocomplete
+            ? "-t border-t-2 border-x-2 border-solid border-[pink-gin-darker]"
+            : ""
+        }-lg hover:border-green-50 px-4 drop-shadow-xl shadow-black`}
       />
 
       {shouldShowAutocomplete &&

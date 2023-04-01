@@ -111,11 +111,11 @@ export const ResultCard = (props: ResultCardProps) => {
     >
       <div className="flex flex-col items-center uppercase">
         <p className="text-sm">The</p>
-        <p className="text-2xl">{name}</p>
+        <p className="text-lg">{name}</p>
       </div>
       <img className={`h-20 w-20${" " + iconStyles ?? ""}`} src={icon} />
       <p
-        className={`text-2xl${
+        className={`text-lg${
           hasPriceChanged ? " animate-fade-in" : ""
         } hover:cursor-text`}
         onClick={handlePriceChange}
@@ -148,7 +148,7 @@ export const ResultCard = (props: ResultCardProps) => {
             </div>
           )
           : (
-            <span className={hasCurrencyChanged ? "animate-pulse" : null}>
+            <span className={hasCurrencyChanged ? "animate-pulse" : ""}>
               {price}
             </span>
           )}

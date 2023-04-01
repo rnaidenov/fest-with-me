@@ -8,6 +8,17 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        sm: "0.95rem",
+        base: "1.25rem",
+        lg: "1.65rem",
+        xl: "2rem",
+      },
+      fontFamily: {
+        teko: ["Teko", "sans-serif"],
+        oswald: ["Oswald", "sans-serif"],
+        barlow: ["Barlow Condensed", "sans-serif"],
+      },
       boxShadow: {
         "3xl": "0px 4px 4px rgba(0, 0, 0, 0.25)",
         "4xl": "0px 4px 10px rgba(0, 0, 0, 0.25)",

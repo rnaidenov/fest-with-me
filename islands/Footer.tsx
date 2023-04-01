@@ -7,16 +7,12 @@ export default () => {
   const currency = CurrencyContext.currency;
 
   const handleCurrencyChange = (update: CurrencyCode) => {
-    console.log(
-      "🚀 ~ file: Footer.tsx:10 ~ handleCurrencyChange ~ update:",
-      update,
-    );
     CurrencyContext.changeCurrency(update);
   };
 
   return (
-    <div className="absolute bg-black flex bottom-0 w-full h-12 justify-center md:justify-between md:pl-12">
-      <div className="grid grid-cols-3 place-items-center text-lg gap-x-12 md:gap-x-8">
+    <div className="absolute bg-black flex bottom-0 w-full h-12 justify-center md:justify-between md:pl-12 font-teko">
+      <div className="grid grid-cols-3 place-items-center gap-x-12 md:gap-x-8">
         {[CurrencyCode.GBP, CurrencyCode.USD, CurrencyCode.EUR].map((
           currencyOption,
         ) => (
@@ -33,7 +29,7 @@ export default () => {
       <div className="items-center justify-end w-full hidden md:flex">
         <div className="flex items-center uppercase text-sm">
           <span className="bg-white inline-block h-6 w-[2px] mr-1" />
-          <p className="inline-block text-white">| Powered by:</p>
+          <p className="inline-block text-white text-sm">| Powered by:</p>
         </div>
         <div className="grid grid-cols-3 place-items-center scale-75 -ml-6">
           <img src="/ra.svg" alt="Resident Advisor" />

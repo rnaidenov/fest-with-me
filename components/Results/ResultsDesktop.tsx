@@ -24,7 +24,7 @@ export const ResultsDesktop = (
 
   return (
     <div className="flex flex-wrap justify-around">
-      <h3 className="w-full text-center mb-4">
+      <h3 className="font-oswald w-full text-center my-6">
         Total price is {CurrencySymbol[currency]}
         {totalPrice} {event?.price === 0 ? "(excl. event ticket)" : ""}
       </h3>

@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import { PageProps } from "$fresh/server.ts";
 import { CurrencyProvider, Layout } from "@components";
 import SearchView from "../islands/SearchView.tsx";
