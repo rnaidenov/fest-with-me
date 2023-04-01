@@ -10,15 +10,16 @@ const currency = signal({ prev: null, active: null });
 
 const changeCurrency = (update: CurrencyCode) => {
   currency.value = { prev: currency.value.active, active: update };
-  localStorage?.setItem(LS_ACTIVE_CURRENCY_KEY, update);
+  // localStorage?.setItem(LS_ACTIVE_CURRENCY_KEY, update);
 };
 
-const currencyPreference = localStorage?.getItem(
-  LS_ACTIVE_CURRENCY_KEY,
-) as Maybe<CurrencyCode>;
+// const currencyPreference = localStorage?.getItem(
+//   LS_ACTIVE_CURRENCY_KEY,
+// ) as Maybe<CurrencyCode>;
 
 addEventListener("load", () => {
-  changeCurrency(currencyPreference ?? CurrencyCode.GBP);
+  // changeCurrency(currencyPreference ?? CurrencyCode.GBP);
+  changeCurrency(CurrencyCode.GBP);
 });
 
 export const CurrencyContext: ICurrencyContext = {
