@@ -3,6 +3,10 @@ import { normalizeEventData } from "./normalize-event-data.ts";
 import { RAIndex } from "./types.ts";
 
 export const searchEvents = async (searchTerm: string) => {
+  console.log(
+    "🚀 ~ file: search-events.ts:7 ~ searchEvents ~ config.RA_SEARCH_API:",
+    config.RA_SEARCH_API,
+  );
   const events = await fetch(config.RA_SEARCH_API, {
     "headers": {
       "content-type": "application/json",
