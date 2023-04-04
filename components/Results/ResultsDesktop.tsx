@@ -53,13 +53,13 @@ export const ResultsDesktop = (
 
   return (
     <div className="flex flex-wrap justify-around">
-      <h3 className="font-oswald w-full text-center text-forest my-6">
+      <h3 className="font-oswald w-full text-center text-forest my-6 animate-fade-in-up">
         Total price is {CurrencySymbol[currency]}
         {totalPrice} {excludingLabel}{"  "}{excludingLabel &&
           (
             <>
               <img
-                className="scale-90 inline-block hover:cursor-pointer"
+                className="scale-90 inline-block hover:cursor-pointer hover:animate-pulse"
                 src="/info.svg"
                 alt="Icon"
                 onMouseOver={() => setShowEmptyPriceDemo(true)}

@@ -25,7 +25,7 @@ export const Loader = ({ text, className }: LoaderProps) => {
       <div className="spinner" />
 
       <div
-        className={`text-eggplant animate-${
+        className={`text-forest animate-${
           prevText === "" ? "fade-in-up" : "flicker"
         }`}
       >

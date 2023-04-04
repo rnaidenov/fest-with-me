@@ -13,7 +13,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  background: #5e4352;
+  background: #283c2c;
   border-radius: 50%;
   animation: spinner-lqsq3g 1.2s infinite ease;
 }
@@ -44,4 +44,10 @@
   50% {
      transform: translate(-50%, -50%) scale(0);
   }
+}
+
+@keyframes search-btn-grow {
+  to {
+    transform: scale(1.05);
+ }
 }

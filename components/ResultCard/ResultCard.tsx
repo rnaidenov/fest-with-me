@@ -34,7 +34,8 @@ export const ResultCard = (props: ResultCardProps) => {
   const customPriceInput = useRef(null);
 
   const handlePriceChange = (e) => {
-    e.stopPropagation();
+    e.preventDefault();
+
     if (isEditingPrice) {
       return;
     }
@@ -94,13 +95,11 @@ export const ResultCard = (props: ResultCardProps) => {
 
   useEffect(() => {
     if (customPriceInput.current !== null) {
-      setIsEditingPrice(false);
-
       customPriceInput.current.onblur = () => {
         setIsEditingPrice(false);
       };
     }
-  }, [customPriceInput.current]);
+  }, [customPriceInput.current === null]);
 
   useEffect(() => {
     if (
@@ -111,7 +110,7 @@ export const ResultCard = (props: ResultCardProps) => {
   }, [currency]);
 
   return (
-    <div
+    <a
       {...props}
       // TODO: withClass
       className={`
@@ -129,7 +128,8 @@ export const ResultCard = (props: ResultCardProps) => {
         duration-300
         ${" " + className ?? ""}
         `}
-      onClick={() => window.open(redirectUrl, "_blank")}
+      href={redirectUrl}
+      target="_blank"
     >
       <div className="flex flex-col items-center uppercase">
         <p className="text-sm">The</p>
@@ -178,6 +178,6 @@ export const ResultCard = (props: ResultCardProps) => {
             // TODO: withClass
           )}
       </p>
-    </div>
+    </a>
   );
 };
