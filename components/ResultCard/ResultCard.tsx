@@ -110,9 +110,6 @@ export const ResultCard = (props: ResultCardProps) => {
     }
   }, [currency]);
 
-  console.log(emptyPriceDemo && "lainaaa!!!");
-  console.log(!emptyPriceDemo && name && "govnnaaa!!!");
-
   return (
     <div
       {...props}

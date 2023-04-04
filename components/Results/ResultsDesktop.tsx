@@ -47,15 +47,9 @@ export const ResultsDesktop = (
       typeof price.value !== "number" || price.value === 0
     );
 
-    // TODO: Can optimise
     labelUpdateOnPriceChange(missingPrices);
     setTotalPrice(newTotal);
   }, [event?.price, flights?.price, accommodation?.price]);
-
-  console.log(
-    "🚀 ~ file: ResultsDesktop.tsx:51 ~ excludingLabel:",
-    excludingLabel,
-  );
 
   return (
     <div className="flex flex-wrap justify-around">

@@ -152,14 +152,13 @@ export default function SearchView(props: PageProps) {
         onEventChange={(event: EventData) => setEventData(event)}
       />
 
-      <div className="absolute left-[50%] top-[60%] left-[50%] translate-x-[-50%]">
-        {searchStatus === SearchStatus.InProgress &&
-          (
-            <Loader
-              text={searchText}
-            />
-          )}
-      </div>
+      {searchStatus === SearchStatus.InProgress &&
+        (
+          <Loader
+            text={searchText}
+            className="absolute left-[50%] top-[60%] left-[50%] translate-x-[-50%]"
+          />
+        )}
 
       <div
         className={`h-full 
