@@ -9,6 +9,7 @@ type BaseResultCardProps = {
   className?: string;
   style?: Record<string, unknown>;
   iconStyles?: string;
+  emptyPriceDemo: boolean;
   onPriceUpdate: (price: number) => void;
 };
 

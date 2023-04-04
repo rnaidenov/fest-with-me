@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { CurrencySymbol } from "../../consts.ts";
-import { CurrencyCode } from "../../types.ts";
 import { CurrencyContext } from "../../context/CurrencyContext.ts";
 import { useFirstRender } from "../../utils/fe/hooks/use-first-render.ts";
-
 import { ResultCardProps } from "./types.ts";
+import { UPDATE_ANIMATION_DURATION_MILLISECONDS } from "./consts.ts";
+import { ResultPrice } from "./ResultPrice.tsx";
 
 // TODO: withClass fn
 // class to be optional!
@@ -18,6 +18,7 @@ export const ResultCard = (props: ResultCardProps) => {
     iconStyles,
     onPriceUpdate,
     className,
+    emptyPriceDemo,
   } = props;
 
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -66,8 +67,7 @@ export const ResultCard = (props: ResultCardProps) => {
     if (!canDiscardCustomPrice) {
       setTimeout(() => {
         setShowDiscardCustomPrice(false);
-        // TODO: Const.
-      }, 500);
+      }, 2 / 3 * UPDATE_ANIMATION_DURATION_MILLISECONDS);
     }
   }, [canDiscardCustomPrice]);
 
@@ -88,10 +88,19 @@ export const ResultCard = (props: ResultCardProps) => {
       setTimeout(() => {
         setHasPriceChanged(false);
         setHasCurrencyChanged(false);
-        // TODO: Const
-      }, 750);
+      }, UPDATE_ANIMATION_DURATION_MILLISECONDS);
     };
   }, [price]);
+
+  useEffect(() => {
+    if (customPriceInput.current !== null) {
+      setIsEditingPrice(false);
+
+      customPriceInput.current.onblur = () => {
+        setIsEditingPrice(false);
+      };
+    }
+  }, [customPriceInput.current]);
 
   useEffect(() => {
     if (
@@ -101,12 +110,28 @@ export const ResultCard = (props: ResultCardProps) => {
     }
   }, [currency]);
 
+  console.log(emptyPriceDemo && "lainaaa!!!");
+  console.log(!emptyPriceDemo && name && "govnnaaa!!!");
+
   return (
     <div
       {...props}
-      className={`bg-white inline-flex flex-col justify-around shadow-4xl items-center rounded-2xl hover:cursor-pointer${
-        " " + className ?? ""
-      }`}
+      // TODO: withClass
+      className={`
+        bg-white 
+        inline-flex 
+        flex-col 
+        justify-around 
+        shadow-4xl 
+        items-center
+        rounded-[2.5rem] 
+        hover:cursor-pointer 
+        hover:scale-[1.025]
+        hover:rounded-3xl 
+        transition-all
+        duration-300
+        ${" " + className ?? ""}
+        `}
       onClick={() => window.open(redirectUrl, "_blank")}
     >
       <div className="flex flex-col items-center uppercase">
@@ -115,7 +140,7 @@ export const ResultCard = (props: ResultCardProps) => {
       </div>
       <img className={`h-20 w-20${" " + iconStyles ?? ""}`} src={icon} />
       <p
-        className={`text-lg${
+        className={`relative text-lg${
           hasPriceChanged ? " animate-fade-in" : ""
         } hover:cursor-text`}
         onClick={handlePriceChange}
@@ -148,9 +173,12 @@ export const ResultCard = (props: ResultCardProps) => {
             </div>
           )
           : (
-            <span className={hasCurrencyChanged ? "animate-pulse" : ""}>
-              {price}
-            </span>
+            <ResultPrice
+              value={price}
+              emptyPriceDemo={emptyPriceDemo}
+              seekAttention={hasCurrencyChanged || emptyPriceDemo}
+            />
+            // TODO: withClass
           )}
       </p>
     </div>

@@ -82,7 +82,7 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
         />
         <button
           type="submit"
-          className="flex items-center justify-center absolute w-12 h-12 -bottom-7 rounded-full bg-eggplant shadow-3xl z-30"
+          className="flex items-center justify-center absolute w-12 h-12 -bottom-7 rounded-full bg-eggplant shadow-3xl z-30 hover:animate-flicker"
         >
           <img
             src="/search.svg"

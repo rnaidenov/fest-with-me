@@ -28,6 +28,9 @@ export default {
         "fly": "fly 3s ease-in-out 0s infinite alternate",
         "flicker": "flicker 300ms linear",
         "fade-in": "fade-in 750ms ease-in-out",
+        "fade-in-up": "fade-in-up 1250ms ease-in-out",
+        "flashlight": "flashlight 2.4s infinite linear",
+        "flashlight-pseudo": "flashlight-pseudo 1.5s infinite ease",
       },
       keyframes: {
         ["in-from-left"]: {
@@ -37,6 +40,16 @@ export default {
         ["fade-in"]: {
           "0%": { opacity: 0 },
           "100%": { opacity: 1 },
+        },
+        ["fade-in-up"]: {
+          "0%": {
+            opacity: 0,
+            transform: "translateY(1rem)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
         },
         ["fly"]: {
           "0%": { transform: "translate(5px, 5px) rotate(-1.25deg)" },
@@ -80,12 +93,26 @@ export default {
             opacity: 1,
           },
         },
+        ["flashlight"]: {
+          "to": {
+            transform: "rotate(360deg)",
+          },
+        },
+        ["flashlight-pseudo"]: {
+          "0%, 100%": {
+            transform: "translate(-50%, -50%) scale(1)",
+          },
+          "50%": {
+            transform: "translate(-50%, -50%) scale(0)",
+          },
+        },
       },
       backgroundImage: {
         "hero-festival": "url('/half-bg.jpeg')",
       },
       colors: {
         "eggplant": "#5E4352",
+        "forest": "#283c2c",
         "pink-gin": "#F2D6D6",
         "pink-gin-darker": "#E6C2C2",
       },

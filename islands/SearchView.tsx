@@ -12,6 +12,7 @@ import {
 import { accommodationQuery, flightsQuery } from "../utils/fe/index.ts";
 import { Maybe, SearchStatus } from "../types.ts";
 import { CurrencyContext } from "../context/CurrencyContext.ts";
+import { Loader } from "../components/Loader/Loader.tsx";
 
 // TODO: Fix button active state
 // TODO: Events on the same date
@@ -21,39 +22,39 @@ import { CurrencyContext } from "../context/CurrencyContext.ts";
 export default function SearchView(props: PageProps) {
   // const searchWrapRef = useRef();
   const [searchStatus, setSearchStatus] = useState<SearchStatus>(
-    SearchStatus.Init,
-    // SearchStatus.End,
+    // SearchStatus.Init,
+    SearchStatus.End,
   );
 
-  // const [eventData, setEventData] = useState({
-  //   "id": "1671358",
-  //   "date": "2023-04-21T23:00:00.000",
-  //   "price": 0,
-  //   "url": "https://ra.co/events/1671358",
-  // });
-  // const [flightsData, setFlightsData] = useState({
-  //   "flyFrom": "SOF",
-  //   "flyTo": "VIE",
-  //   "price": 91,
-  //   "url":
-  //     "https://www.kiwi.com/deep?affilid=radoslavnaydenovfestwithme&currency=GBP&flightsId=0f5819ef4c120000ae65dbe0_0%7C19ef0f584c150000fe755a4e_0&from=SOF&lang=en&passengers=1&to=VIE&booking_token=EfotmxDXdjIdycKQuOgtGPXuq_o6H6Y95QoJqBORh1VS1FtYyj5BJgfdmaS19P-7wtTrzp-8Vjtfc9v2An9ZXeYjDaMjz9Pj4ac_b0DjyvuLNvfp1OrFjA67e5oUfLTvw8ZhqoA1SYW1PVtWoVRiD7iVWhnuZKC3YvzeWv0xTj9QRysp5y7O0FCMcuq2Gs8GCWNhnBzTQj-XAWggYE3bA9JV74xJmQb0fjukYihLI5QPtKEGnwUfFqysTIIGpOLg3srWPH_KWqMXdZsSe1SHcKrn48BDiMZHrpIfYsI71HnTxKLT6Z-_g_dYpL7V5XxfuSBH6XoVhKhJihyJUdgde166Hy2HEPHmqYq9ExRc6UmunnBs-CcoHh4Tdq8XWB-fi_ZUnfOhNSGQM9CYHdsVIr-QVrMSOVNBLLYlc3STNgJdUYWwJhnqjLrk7ukwh-mJCcx4FT2wI3Gm1b-fHq6_mry6Z10XA-OdERIfrLRDbSBI-oaOv0kiQfcIe0iH6fET8kWxcZve469sIZcrbBQEndarwckjVLAzV1EDtuWgXp248S3yKiyiVY2iaKi5Emn7Pu0mzOLBYdQHTWRiK1uU_QkxmYk-5feF2n027E7h6qc-lxM-mPoef-HsJh2gUWKlHVzJkzIIqwzs4O3H720nX8q26BvnLiHbRtrgmnPQI-kRh0FWz4b5EqRnpE58JLVfG3ypuFUW2tdumHBJWQjB3XPusqd4BZYzTl5qg3aGG6AyT-0eS_jHjQ5eDenlATgg1UrcGt1dvdLylkUux1niMMg==",
-  //   "inboundDate": "2023-04-27T15:20:00.000Z",
-  //   "outboundDate": "2023-04-30T11:20:00.000Z",
-  // });
-  // const [accommodationData, setAccommodationData] = useState({
-  //   "price": 173,
-  //   "avgPricePrivateRoom": 129,
-  //   "avgPriceSharedRoom": 42,
-  //   "avgPriceEntirePlace": 189,
-  //   "url":
-  //     "https://www.airbnb.co.uk/s/homes?query=Austria,Austria&checkin=2023-04-27T15:20:00.000Z&checkout=2023-04-30T11:20:00.000Z&adults=1&currency=GBP",
-  // });
-  const [eventData, setEventData] = useState(null);
-  const [flightsData, setFlightsData] = useState(null);
-  const [accommodationData, setAccommodationData] = useState(null);
+  const [eventData, setEventData] = useState({
+    "id": "1671358",
+    "date": "2023-04-21T23:00:00.000",
+    "price": 0,
+    "url": "https://ra.co/events/1671358",
+  });
+  const [flightsData, setFlightsData] = useState({
+    "flyFrom": "SOF",
+    "flyTo": "VIE",
+    "price": 91,
+    "url":
+      "https://www.kiwi.com/deep?affilid=radoslavnaydenovfestwithme&currency=GBP&flightsId=0f5819ef4c120000ae65dbe0_0%7C19ef0f584c150000fe755a4e_0&from=SOF&lang=en&passengers=1&to=VIE&booking_token=EfotmxDXdjIdycKQuOgtGPXuq_o6H6Y95QoJqBORh1VS1FtYyj5BJgfdmaS19P-7wtTrzp-8Vjtfc9v2An9ZXeYjDaMjz9Pj4ac_b0DjyvuLNvfp1OrFjA67e5oUfLTvw8ZhqoA1SYW1PVtWoVRiD7iVWhnuZKC3YvzeWv0xTj9QRysp5y7O0FCMcuq2Gs8GCWNhnBzTQj-XAWggYE3bA9JV74xJmQb0fjukYihLI5QPtKEGnwUfFqysTIIGpOLg3srWPH_KWqMXdZsSe1SHcKrn48BDiMZHrpIfYsI71HnTxKLT6Z-_g_dYpL7V5XxfuSBH6XoVhKhJihyJUdgde166Hy2HEPHmqYq9ExRc6UmunnBs-CcoHh4Tdq8XWB-fi_ZUnfOhNSGQM9CYHdsVIr-QVrMSOVNBLLYlc3STNgJdUYWwJhnqjLrk7ukwh-mJCcx4FT2wI3Gm1b-fHq6_mry6Z10XA-OdERIfrLRDbSBI-oaOv0kiQfcIe0iH6fET8kWxcZve469sIZcrbBQEndarwckjVLAzV1EDtuWgXp248S3yKiyiVY2iaKi5Emn7Pu0mzOLBYdQHTWRiK1uU_QkxmYk-5feF2n027E7h6qc-lxM-mPoef-HsJh2gUWKlHVzJkzIIqwzs4O3H720nX8q26BvnLiHbRtrgmnPQI-kRh0FWz4b5EqRnpE58JLVfG3ypuFUW2tdumHBJWQjB3XPusqd4BZYzTl5qg3aGG6AyT-0eS_jHjQ5eDenlATgg1UrcGt1dvdLylkUux1niMMg==",
+    "inboundDate": "2023-04-27T15:20:00.000Z",
+    "outboundDate": "2023-04-30T11:20:00.000Z",
+  });
+  const [accommodationData, setAccommodationData] = useState({
+    "price": 173,
+    "avgPricePrivateRoom": 129,
+    "avgPriceSharedRoom": 42,
+    "avgPriceEntirePlace": 189,
+    "url":
+      "https://www.airbnb.co.uk/s/homes?query=Austria,Austria&checkin=2023-04-27T15:20:00.000Z&checkout=2023-04-30T11:20:00.000Z&adults=1&currency=GBP",
+  });
+  // const [eventData, setEventData] = useState(null);
+  // const [flightsData, setFlightsData] = useState(null);
+  // const [accommodationData, setAccommodationData] = useState(null);
   // TODO: Event name and metadata!
 
-  const [searchRef, setSearchRef] = useState<Maybe<SearchRef>>(null);
+  const [searchText, setSearchText] = useState("");
 
   const currency = CurrencyContext.currency.value;
 
@@ -63,6 +64,7 @@ export default function SearchView(props: PageProps) {
     }
 
     setSearchStatus(SearchStatus.InProgress);
+    setSearchText("Looking for the best flights...");
 
     const { event, ...refWithoutEvent } = searchRef;
 
@@ -74,6 +76,8 @@ export default function SearchView(props: PageProps) {
     });
 
     setFlightsData(flightsData);
+
+    setSearchText("Searching for accommodation...");
 
     const accommodationData = await accommodationQuery({
       currency: currency.active,
@@ -148,6 +152,15 @@ export default function SearchView(props: PageProps) {
         onEventChange={(event: EventData) => setEventData(event)}
       />
 
+      <div className="absolute left-[50%] top-[60%] left-[50%] translate-x-[-50%]">
+        {searchStatus === SearchStatus.InProgress &&
+          (
+            <Loader
+              text={searchText}
+            />
+          )}
+      </div>
+
       <div
         className={`h-full 
         ${searchStatus === SearchStatus.End ? "block" : "hidden"}`}
@@ -156,7 +169,6 @@ export default function SearchView(props: PageProps) {
           event={eventData}
           flights={flightsData}
           accommodation={accommodationData}
-          currency={currency}
         />
       </div>
     </>
