@@ -41,7 +41,10 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
   return (
     <form
       className="relative w-full md:mx-auto md:w-10/12 xl:w-9/12"
-      onSubmit={onSubmit}
+      onSubmit={(e: SubmitEvent) => {
+        e.preventDefault();
+        onSubmit(searchRef);
+      }}
     >
       <div className="flex flex-col h-[45vh] items-center text-white justify-center h-10/12 md:pb-0 md:flex-row md:justify-around md:pt-48">
         <NumberInput

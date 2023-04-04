@@ -14,31 +14,32 @@ export enum AccommodationType {
 
 export type Maybe<T> = T | null;
 
-export type EventData = {
-  name: string;
-  date: string;
+type BaseResultsData = {
   url: string;
   price: number;
 };
 
-export type FlightsData = {
-  flyFrom: string;
+export type EventData = BaseResultsData & {
+  name: string;
+  date: string;
+};
+
+export type FlightsData = BaseResultsData & {
   flyTo: string;
-  price: number;
-  url: string;
+  flyFrom: string;
   inboundDate: string;
   outboundDate: string;
 };
 
-export type AccommodationData = {
-  price: number;
-  // price: {
-  //   shared: number;
-  //   private: number;
-  //   semiPrivate: number;
-  // };
-  url: string;
-};
+export type AccommodationData = BaseResultsData;
+//  & {
+//  price: {
+//    shared: number;
+//    private: number;
+//    semiPrivate: number;
+//  };
+// }
+// };
 
 export type SearchResults = {
   event: EventData;
@@ -54,7 +55,7 @@ export type SearchRef = {
   };
   numPeople: number;
   nights: number;
-  destination: DestinationSplit;
+  destination: EventLocation;
   // EventName = "eventName",
   // EventDate = "eventDate",
   // Destination = "destination",
@@ -62,16 +63,21 @@ export type SearchRef = {
   // Country = "destinationCountry",
 };
 
-export type DestinationSplit = {
+export type EventLocation = {
   area: string;
   country: string;
   club: string;
 };
 
+export type FlightsDestinationSplit = {
+  city: string;
+  country: string;
+};
+
 export type FlightsSearchQuery = {
   currency: CurrencyCode;
   origin: string;
-  destination: DestinationSplit;
+  destination: FlightsDestinationSplit;
   numPeople: number;
   dateFrom: string;
   dateTo: string;

@@ -5,6 +5,7 @@ import { FlightsSearchQuery } from "../../types.ts";
 
 export const prepareFlightsQuery = ({
   eventDate,
+  destination,
   ...otherArgs
 }: FlightsQueryArgs): FlightsSearchQuery => {
   const [dateFrom, dateTo, returnFrom, returnTo] = normalizeDate(
@@ -13,11 +14,17 @@ export const prepareFlightsQuery = ({
     KIWI_DATE_FORMAT,
   );
 
+  const { area: city, country } = destination;
+
   return {
     dateTo,
     dateFrom,
     returnTo,
     returnFrom,
+    destination: {
+      city,
+      country,
+    },
     ...otherArgs,
   };
 };
