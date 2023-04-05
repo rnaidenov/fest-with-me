@@ -113,6 +113,7 @@ export default {
       colors: {
         "eggplant": "#5E4352",
         "forest": "#283c2c",
+        "melon": "#a4c3b2",
         "pink-gin": "#F2D6D6",
         "pink-gin-darker": "#E6C2C2",
       },

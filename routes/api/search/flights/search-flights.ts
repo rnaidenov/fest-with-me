@@ -1,7 +1,8 @@
 import { FlightsData, FlightsSearchQuery, Maybe } from "../../../../types.ts";
 import { buildUrl } from "./build-url.ts";
 import { flightsDataFrom } from "./flights-data-from.ts";
-import { getCityCode } from "./get-city-code.ts";
+import { geocode } from "./geocode.ts";
+import { idFromCoordinates } from "./id-from-coordinates.ts";
 
 // TODO: Make date before / ater event configurable
 // TODO: If city is random unsearchable thing, then look by country
@@ -10,15 +11,16 @@ export const searchFlights = async ({
   destination,
   ...filters
 }: FlightsSearchQuery): Promise<Maybe<FlightsData>> => {
-  const originCode = await getCityCode(origin);
+  const originCoords = await geocode(origin);
+  const originId = await idFromCoordinates(originCoords);
 
-  // TODO: Use country if it fails with destination city
-  const destinationCode = await getCityCode(destination.city as string);
+  const destinationCoords = await geocode(destination);
+  const destinationId = await idFromCoordinates(destinationCoords);
 
   // TODO: What if event is today / tomorrow
   const url = buildUrl({
-    origin: originCode,
-    destination: destinationCode,
+    origin: originId,
+    destination: destinationId,
     ...filters,
   });
 

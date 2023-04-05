@@ -57,6 +57,7 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
           going to
         </p>
         <EventAutocomplete
+          placeholder="Ben Klock"
           className="w-11/12 min-h-[40px] md:w-80"
           value={searchRef?.event?.name ?? ""}
           onChange={handleEventChange}
@@ -67,6 +68,7 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
         <TextField
           className="w-11/12 min-h-[40px] md:w-48"
           type="text"
+          placeholder="London, UK"
           data-name="origin"
           value={searchRef?.origin ?? ""}
           onChange={handleCommonChange("origin")}

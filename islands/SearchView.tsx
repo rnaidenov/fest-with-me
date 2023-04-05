@@ -66,14 +66,19 @@ export default function SearchView(props: PageProps) {
     setSearchStatus(SearchStatus.InProgress);
     setSearchText("Looking for the best flights...");
 
-    const { event, ...refWithoutEvent } = searchRef;
+    const { event, destination, ...refWithoutEvent } = searchRef;
 
     const flightsData = await flightsQuery({
       // TODO: location.area + location.country
       ...refWithoutEvent,
       eventDate: event.date,
       currency: currency.active,
+      destination: `${destination.club}, ${destination.area}`,
     });
+    console.log(
+      "🚀 ~ file: SearchView.tsx:78 ~ handleSubmit ~ flightsData:",
+      flightsData,
+    );
 
     setFlightsData(flightsData);
 
@@ -83,8 +88,8 @@ export default function SearchView(props: PageProps) {
       currency: currency.active,
       eventDate: searchRef.event.date,
       numPeople: searchRef.numPeople,
-      city: searchRef.destination.area,
-      country: searchRef.destination.country,
+      // TOOD: Not great depending on flights data
+      destination: `${flightsData.flyTo}, ${destination.country}`,
       dateTo: flightsData?.outboundDate,
       dateFrom: flightsData?.inboundDate,
     });
