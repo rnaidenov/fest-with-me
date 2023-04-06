@@ -1,9 +1,9 @@
-import { CurrencyCode } from "../../types.ts";
+import { CurrencyCode, LatLong } from "../../types.ts";
 
 export interface FlightsQueryArgs {
   currency: CurrencyCode;
   origin: string;
-  destination: string;
+  destination: LatLong;
   numPeople: number;
   eventDate: string;
   nights: number;

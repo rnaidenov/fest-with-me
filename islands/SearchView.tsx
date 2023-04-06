@@ -73,12 +73,8 @@ export default function SearchView(props: PageProps) {
       ...refWithoutEvent,
       eventDate: event.date,
       currency: currency.active,
-      destination: `${destination.club}, ${destination.area}`,
+      destination: destination.geo,
     });
-    console.log(
-      "🚀 ~ file: SearchView.tsx:78 ~ handleSubmit ~ flightsData:",
-      flightsData,
-    );
 
     setFlightsData(flightsData);
 
@@ -88,8 +84,7 @@ export default function SearchView(props: PageProps) {
       currency: currency.active,
       eventDate: searchRef.event.date,
       numPeople: searchRef.numPeople,
-      // TOOD: Not great depending on flights data
-      destination: `${flightsData.flyTo}, ${destination.country}`,
+      destination: searchRef.destination.address,
       dateTo: flightsData?.outboundDate,
       dateFrom: flightsData?.inboundDate,
     });

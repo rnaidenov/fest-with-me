@@ -52,6 +52,7 @@ export type SearchRef = {
   event: {
     name: string;
     date: string;
+    venueId: string;
   };
   numPeople: number;
   nights: number;
@@ -64,15 +65,14 @@ export type SearchRef = {
 };
 
 export type EventLocation = {
-  area: string;
-  country: string;
-  club: string;
+  geo: LatLong;
+  address: string;
 };
 
 export type FlightsSearchQuery = {
   currency: CurrencyCode;
   origin: string;
-  destination: string;
+  destination: LatLong;
   numPeople: number;
   dateFrom: string;
   dateTo: string;

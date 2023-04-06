@@ -14,8 +14,7 @@ export const searchFlights = async ({
   const originCoords = await geocode(origin);
   const originId = await idFromCoordinates(originCoords);
 
-  const destinationCoords = await geocode(destination);
-  const destinationId = await idFromCoordinates(destinationCoords);
+  const destinationId = await idFromCoordinates(destination);
 
   // TODO: What if event is today / tomorrow
   const url = buildUrl({
