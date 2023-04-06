@@ -1,7 +1,7 @@
 import { AccommodationSearchQuery } from "../../../../types.ts";
 
 export const resultsUrl = (
-  { city, country, checkInDate, checkOutDate, numPeople, currency }:
+  { destination, checkInDate, checkOutDate, numPeople, currency }:
     AccommodationSearchQuery,
 ) =>
-  `https://www.airbnb.co.uk/s/homes?query=${city},${country}&checkin=${checkInDate}&checkout=${checkOutDate}&adults=${numPeople}&currency=${currency}`;
+  `https://www.airbnb.co.uk/s/homes?query=${destination}&checkin=${checkInDate}&checkout=${checkOutDate}&adults=${numPeople}&currency=${currency}`;

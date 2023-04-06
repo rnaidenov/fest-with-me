@@ -16,15 +16,15 @@ export const TextField = (props) => {
   const shouldShowAutocomplete = props.autocomplete &&
     props.suggestions?.length > 0 && showSuggestions;
 
-  const handleInput = (e) => {
+  const handleInput = (e: InputEvent) => {
     setValue(e.target.value);
     props.onInput?.(e);
   };
 
   const onSelect = () => {
-    const focusedEl = document.activeElement;
+    const focusedEl = document.activeElement as Element;
 
-    setValue(focusedEl.textContent);
+    setValue(focusedEl?.textContent);
     setLastFocused(focusedEl);
     handleFocusOut();
 
@@ -77,7 +77,6 @@ export const TextField = (props) => {
         {...props}
         type="text"
         onInput={handleInput}
-        placeholder={props.label ?? ""}
         onFocus={() => setShowSuggestions(true)}
         value={value}
         // data-metadata={ }

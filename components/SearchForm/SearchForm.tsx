@@ -18,19 +18,39 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
       }));
     };
 
-  const handleEventChange = (eventName: string, eventMetadataJSON: string) => {
+  // TODO: Move to utils
+  const lookUpVenue = async (venueId: string) => {
+    console.log(
+      "🚀 ~ file: SearchForm.tsx:22 ~ lookUpVenue ~ venueId:",
+      venueId,
+    );
+    // TODO: Try, catch
+    return await fetch(`/api/search/events?venueId=${venueId}`).then((res) =>
+      res.json()
+    );
+  };
+
+  const handleEventChange = async (
+    eventName: string,
+    eventMetadataJSON: string,
+  ) => {
     if (eventMetadataJSON === undefined) {
       return;
     }
 
     const metadata = JSON.parse(eventMetadataJSON);
 
-    const { destination, ...eventData } = metadata;
+    const { venueId, ...eventData } = metadata;
+
+    const venue = await lookUpVenue(venueId);
 
     onEventChange(eventData);
     setSearchRef((ref: SearchRef) => ({
       ...ref,
-      destination,
+      destination: {
+        geo: venue.geo,
+        address: venue.address,
+      },
       event: {
         ...eventData,
         name: eventName,
@@ -57,6 +77,7 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
           going to
         </p>
         <EventAutocomplete
+          placeholder="Ben Klock"
           className="w-11/12 min-h-[40px] md:w-80"
           value={searchRef?.event?.name ?? ""}
           onChange={handleEventChange}
@@ -67,6 +88,7 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
         <TextField
           className="w-11/12 min-h-[40px] md:w-48"
           type="text"
+          placeholder="London, UK"
           data-name="origin"
           value={searchRef?.origin ?? ""}
           onChange={handleCommonChange("origin")}

@@ -66,13 +66,14 @@ export default function SearchView(props: PageProps) {
     setSearchStatus(SearchStatus.InProgress);
     setSearchText("Looking for the best flights...");
 
-    const { event, ...refWithoutEvent } = searchRef;
+    const { event, destination, ...refWithoutEvent } = searchRef;
 
     const flightsData = await flightsQuery({
       // TODO: location.area + location.country
       ...refWithoutEvent,
       eventDate: event.date,
       currency: currency.active,
+      destination: destination.geo,
     });
 
     setFlightsData(flightsData);
@@ -83,8 +84,7 @@ export default function SearchView(props: PageProps) {
       currency: currency.active,
       eventDate: searchRef.event.date,
       numPeople: searchRef.numPeople,
-      city: searchRef.destination.area,
-      country: searchRef.destination.country,
+      destination: searchRef.destination.address,
       dateTo: flightsData?.outboundDate,
       dateFrom: flightsData?.inboundDate,
     });

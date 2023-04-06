@@ -14,14 +14,17 @@ import * as $7 from "./routes/api/search/accommodation/types.ts";
 import * as $8 from "./routes/api/search/events/index.ts";
 import * as $9 from "./routes/api/search/events/normalize-event-data.ts";
 import * as $10 from "./routes/api/search/events/search-events.ts";
-import * as $11 from "./routes/api/search/events/types.ts";
-import * as $12 from "./routes/api/search/flights/build-url.ts";
-import * as $13 from "./routes/api/search/flights/consts.ts";
-import * as $14 from "./routes/api/search/flights/flights-data-from.ts";
-import * as $15 from "./routes/api/search/flights/get-city-code.ts";
-import * as $16 from "./routes/api/search/flights/index.ts";
-import * as $17 from "./routes/api/search/flights/search-flights.ts";
-import * as $18 from "./routes/index.tsx";
+import * as $11 from "./routes/api/search/events/search-venue.ts";
+import * as $12 from "./routes/api/search/events/types.ts";
+import * as $13 from "./routes/api/search/flights/build-url.ts";
+import * as $14 from "./routes/api/search/flights/consts.ts";
+import * as $15 from "./routes/api/search/flights/flights-data-from.ts";
+import * as $16 from "./routes/api/search/flights/geocode.ts";
+import * as $17 from "./routes/api/search/flights/get-city-code.ts";
+import * as $18 from "./routes/api/search/flights/id-from-coordinates.ts";
+import * as $19 from "./routes/api/search/flights/index.ts";
+import * as $20 from "./routes/api/search/flights/search-flights.ts";
+import * as $21 from "./routes/index.tsx";
 import * as $$0 from "./islands/Footer.tsx";
 import * as $$1 from "./islands/SearchView.tsx";
 
@@ -38,14 +41,17 @@ const manifest = {
     "./routes/api/search/events/index.ts": $8,
     "./routes/api/search/events/normalize-event-data.ts": $9,
     "./routes/api/search/events/search-events.ts": $10,
-    "./routes/api/search/events/types.ts": $11,
-    "./routes/api/search/flights/build-url.ts": $12,
-    "./routes/api/search/flights/consts.ts": $13,
-    "./routes/api/search/flights/flights-data-from.ts": $14,
-    "./routes/api/search/flights/get-city-code.ts": $15,
-    "./routes/api/search/flights/index.ts": $16,
-    "./routes/api/search/flights/search-flights.ts": $17,
-    "./routes/index.tsx": $18,
+    "./routes/api/search/events/search-venue.ts": $11,
+    "./routes/api/search/events/types.ts": $12,
+    "./routes/api/search/flights/build-url.ts": $13,
+    "./routes/api/search/flights/consts.ts": $14,
+    "./routes/api/search/flights/flights-data-from.ts": $15,
+    "./routes/api/search/flights/geocode.ts": $16,
+    "./routes/api/search/flights/get-city-code.ts": $17,
+    "./routes/api/search/flights/id-from-coordinates.ts": $18,
+    "./routes/api/search/flights/index.ts": $19,
+    "./routes/api/search/flights/search-flights.ts": $20,
+    "./routes/index.tsx": $21,
   },
   islands: {
     "./islands/Footer.tsx": $$0,

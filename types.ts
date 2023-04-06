@@ -52,6 +52,7 @@ export type SearchRef = {
   event: {
     name: string;
     date: string;
+    venueId: string;
   };
   numPeople: number;
   nights: number;
@@ -64,20 +65,14 @@ export type SearchRef = {
 };
 
 export type EventLocation = {
-  area: string;
-  country: string;
-  club: string;
-};
-
-export type FlightsDestinationSplit = {
-  city: string;
-  country: string;
+  geo: LatLong;
+  address: string;
 };
 
 export type FlightsSearchQuery = {
   currency: CurrencyCode;
   origin: string;
-  destination: FlightsDestinationSplit;
+  destination: LatLong;
   numPeople: number;
   dateFrom: string;
   dateTo: string;
@@ -90,8 +85,7 @@ export type AccommodationSearchQuery = {
   numPeople: number;
   checkInDate: string;
   checkOutDate: string;
-  city: string;
-  country: string;
+  destination: string;
 };
 
 export enum SearchStatus {
@@ -101,3 +95,8 @@ export enum SearchStatus {
 }
 
 export type FCWithChildren = Preact.FC<{ children?: Preact.PreactNode }>;
+
+export type LatLong = {
+  "lat": number;
+  "lng": number;
+};
