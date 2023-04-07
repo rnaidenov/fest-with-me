@@ -65,7 +65,7 @@ export default function SearchView(props: PageProps) {
     }
 
     setSearchStatus(SearchStatus.InProgress);
-    setSearchText("Looking for the best flights...");
+    setSearchText("Looking for the best travel options...");
 
     const { event, destination, ...refWithoutEvent } = searchRef;
 
@@ -79,7 +79,7 @@ export default function SearchView(props: PageProps) {
 
     setFlightsData(flightsData);
 
-    setSearchText("Searching for accommodation...");
+    setSearchText("...and somewhere to sleep after the fun!");
 
     const accommodationData = await accommodationQuery({
       currency: currency.active,
