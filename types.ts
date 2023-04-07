@@ -29,6 +29,7 @@ export type FlightsData = BaseResultsData & {
   flyFrom: string;
   inboundDate: string;
   outboundDate: string;
+  vehicleType: VehicleType;
 };
 
 export type AccommodationData = BaseResultsData;
@@ -100,3 +101,9 @@ export type LatLong = {
   "lat": number;
   "lng": number;
 };
+
+export enum VehicleType {
+  "Aircraft" = "aircraft",
+  "Bus" = "bus",
+  "Train" = "train",
+}

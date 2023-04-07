@@ -10,7 +10,7 @@ export const searchFlights = async ({
   origin,
   destination,
   ...filters
-}: FlightsSearchQuery): Promise<Maybe<FlightsData>> => {
+}: FlightsSearchQuery): Promise<FlightsData | Pick<FlightsData, "price">> => {
   const originCoords = await geocode(origin);
   const originId = await idFromCoordinates(originCoords);
 
@@ -23,5 +23,7 @@ export const searchFlights = async ({
     ...filters,
   });
 
-  return flightsDataFrom(url);
+  const data = await flightsDataFrom(url);
+
+  return data ?? { price: 0 };
 };

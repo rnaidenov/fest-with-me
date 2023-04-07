@@ -26,11 +26,14 @@ export default {
       animation: {
         "in-from-left": "in-from-left 2s cubic-bezier(.19,1,.22,1) backwards",
         "fly": "fly 3s ease-in-out 0s infinite alternate",
+        "bumpy-ride": "bumpy-ride 750ms ease-in-out 0s infinite alternate",
+        "train-travel": "train-travel 1.125s ease-in-out 0s infinite alternate",
         "flicker": "flicker 300ms linear",
         "fade-in": "fade-in 750ms ease-in-out",
         "fade-in-up": "fade-in-up 1250ms ease-in-out",
         "flashlight": "flashlight 2.4s infinite linear",
         "flashlight-pseudo": "flashlight-pseudo 1.5s infinite ease",
+        "fill-height": "fill-height 1s cubic-bezier(.19,1,.22,1) alternate",
       },
       keyframes: {
         ["in-from-left"]: {
@@ -54,6 +57,14 @@ export default {
         ["fly"]: {
           "0%": { transform: "translate(5px, 5px) rotate(-1.25deg)" },
           "100%": { transform: "translate(-5px,-5px) rotate(1.25deg)" },
+        },
+        ["bumpy-ride"]: {
+          "0%": { transform: "translateY(-2px)" },
+          "100%": { transform: "translateY(2px)" },
+        },
+        ["train-travel"]: {
+          "0%": { transform: "translateX(2px)" },
+          "100%": { transform: "translateX(-2px)" },
         },
         ["flicker"]: {
           "0%": {
@@ -104,6 +115,14 @@ export default {
           },
           "50%": {
             transform: "translate(-50%, -50%) scale(0)",
+          },
+        },
+        ["fill-height"]: {
+          "0%": {
+            height: "0%",
+          },
+          "100%": {
+            height: "100%",
           },
         },
       },

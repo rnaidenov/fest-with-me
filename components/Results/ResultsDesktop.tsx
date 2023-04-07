@@ -4,12 +4,13 @@ import { CurrencyContext } from "../../context/CurrencyContext.ts";
 import { CurrencyCode } from "../../types.ts";
 import { ResultCard } from "../ResultCard/ResultCard.tsx";
 import { ResultCardData, ResultsProps } from "./types.ts";
+import { propsByVehicleType } from "./utils/props-by-vehicle-type.ts";
 
 export const ResultsDesktop = (
   { event, flights, accommodation, onPriceUpdate }: ResultsProps,
 ) => {
   const [totalPrice, setTotalPrice] = useState(0);
-  const [showEmptyPriceDemo, setShowEmptyPriceDemo] = useState(false);
+  const [showCardInfo, setShowCardInfo] = useState(false);
 
   const [excludingLabel, setExcludingLabel] = useState("");
 
@@ -62,8 +63,8 @@ export const ResultsDesktop = (
                 className="scale-90 inline-block hover:cursor-pointer hover:animate-pulse"
                 src="/info.svg"
                 alt="Icon"
-                onMouseOver={() => setShowEmptyPriceDemo(true)}
-                onMouseOut={() => setShowEmptyPriceDemo(false)}
+                onMouseOver={() => setShowCardInfo(true)}
+                onMouseOut={() => setShowCardInfo(false)}
               />
               {")"}
             </>
@@ -76,14 +77,14 @@ export const ResultsDesktop = (
           icon: "/tickets.svg",
           price: event?.price,
           priceKey: "event",
+          info:
+            "Event prices aren't always listed, so to be sure the total is accurate, please manually enter the cost of the ticket.",
         },
         {
-          name: "Flight",
           redirectUrl: flights?.url,
-          icon: "/flight.svg",
-          iconStyles: "animate-fly",
           price: flights?.price,
           priceKey: "flights",
+          ...propsByVehicleType(flights?.vehicleType!),
         },
         {
           name: "Rest",
@@ -96,9 +97,8 @@ export const ResultsDesktop = (
         <ResultCard
           {...props}
           iconStyles={iconStyles ?? ""}
+          showCardInfo={showCardInfo && excludingLabel.includes(priceKey)}
           className="h-64 w-72 animate-in-from-left"
-          emptyPriceDemo={showEmptyPriceDemo &&
-            excludingLabel.includes(priceKey)}
           style={{ animationDelay: `${(arr.length - idx) * 350}ms` }}
           onPriceUpdate={onPriceUpdate(priceKey)}
         />

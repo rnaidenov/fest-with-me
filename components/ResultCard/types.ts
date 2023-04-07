@@ -1,5 +1,5 @@
 import Preact from "preact";
-import { AccommodationData, CurrencyCode } from "../../types.ts";
+import { AccommodationData } from "../../types.ts";
 
 type BaseResultCardProps = {
   name: string;
@@ -9,7 +9,8 @@ type BaseResultCardProps = {
   className?: string;
   style?: Record<string, unknown>;
   iconStyles?: string;
-  emptyPriceDemo: boolean;
+  info?: string;
+  showCardInfo: boolean;
   onPriceUpdate: (price: number) => void;
 };
 

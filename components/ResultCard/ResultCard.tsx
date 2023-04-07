@@ -6,6 +6,8 @@ import { ResultCardProps } from "./types.ts";
 import { UPDATE_ANIMATION_DURATION_MILLISECONDS } from "./consts.ts";
 import { ResultPrice } from "./ResultPrice.tsx";
 
+// TODO: REFACTOR!
+
 // TODO: withClass fn
 // class to be optional!
 // {' ' + className ?? ''}`
@@ -18,7 +20,8 @@ export const ResultCard = (props: ResultCardProps) => {
     iconStyles,
     onPriceUpdate,
     className,
-    emptyPriceDemo,
+    showCardInfo,
+    info,
   } = props;
 
   const [isEditingPrice, setIsEditingPrice] = useState(false);
@@ -26,6 +29,8 @@ export const ResultCard = (props: ResultCardProps) => {
   const [showDiscardCustomPrice, setShowDiscardCustomPrice] = useState(true);
   const [hasPriceChanged, setHasPriceChanged] = useState(false);
   const [hasCurrencyChanged, setHasCurrencyChanged] = useState(false);
+
+  const [showManualPriceDemo, setShowManualPriceDemo] = useState(false);
 
   const currency = CurrencyContext.currency.value;
 
@@ -53,15 +58,24 @@ export const ResultCard = (props: ResultCardProps) => {
     onPriceUpdate(value);
   };
 
-  const handleDiscardCustomPrice = () => {
-    setIsEditingPrice(false);
-  };
-
   useEffect(() => {
     if (isEditingPrice) {
       customPriceInput.current.focus();
     }
   }, [isEditingPrice]);
+
+  useEffect(() => {
+    // sci = 0
+    if (!isFirstRender && !showCardInfo) {
+      // mpd = 1
+      setShowManualPriceDemo(true);
+
+      // mpd = 0
+      setTimeout(() => {
+        setShowManualPriceDemo(false);
+      }, 2 * UPDATE_ANIMATION_DURATION_MILLISECONDS);
+    }
+  }, [showCardInfo, showManualPriceDemo]);
 
   // TODO: Make icon bigger
   useEffect(() => {
@@ -114,6 +128,7 @@ export const ResultCard = (props: ResultCardProps) => {
       {...props}
       // TODO: withClass
       className={`
+        relative
         bg-white 
         inline-flex 
         flex-col 
@@ -127,10 +142,29 @@ export const ResultCard = (props: ResultCardProps) => {
         transition-all
         duration-300
         ${" " + className ?? ""}
-        `}
+      `}
       href={redirectUrl}
       target="_blank"
     >
+      {showCardInfo && info && (
+        // TODO:
+        <div className="absolute flex flex-col animate-fill-height justify-start items-center p-4 z-10 top-0 left-0 w-full h-full bg-forest text-white text-center rounded-[2.5rem]">
+          <div className="flex flex-col items-center uppercase w-full animate-fade-in">
+            <p className="text-sm">The</p>
+            <p className="text-lg">{name}</p>
+          </div>
+          <p
+            className="font-teko animate-flicker w-full mt-8"
+            style={{
+              animationDelay: `${
+                2 / 3 * UPDATE_ANIMATION_DURATION_MILLISECONDS
+              }ms`,
+            }}
+          >
+            {info}
+          </p>
+        </div>
+      )}
       <div className="flex flex-col items-center uppercase">
         <p className="text-sm">The</p>
         <p className="text-lg">{name}</p>
@@ -157,7 +191,7 @@ export const ResultCard = (props: ResultCardProps) => {
               <img
                 src="/remove.svg"
                 alt="Remove"
-                onClick={handleDiscardCustomPrice}
+                onClick={() => setIsEditingPrice(false)}
                 className={`${
                   showDiscardCustomPrice ? "inline-block" : "hidden"
                 }
@@ -172,8 +206,8 @@ export const ResultCard = (props: ResultCardProps) => {
           : (
             <ResultPrice
               value={price}
-              emptyPriceDemo={emptyPriceDemo}
-              seekAttention={hasCurrencyChanged || emptyPriceDemo}
+              emptyPriceDemo={showManualPriceDemo}
+              seekAttention={hasCurrencyChanged || showManualPriceDemo}
             />
             // TODO: withClass
           )}

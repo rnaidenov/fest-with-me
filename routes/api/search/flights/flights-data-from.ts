@@ -29,6 +29,7 @@ export const flightsDataFrom = async (
         flyTo,
         price,
         url: deep_link,
+        vehicleType: inbound.vehicle_type,
         inboundDate: inbound["local_departure"],
         outboundDate: outbound["local_departure"],
       };
