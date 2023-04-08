@@ -127,7 +127,7 @@ export default {
         },
       },
       backgroundImage: {
-        "hero-festival": "url('/half-bg.jpeg')",
+        "hero-festival": "url('/background.jpeg')",
       },
       colors: {
         "eggplant": "#5E4352",
