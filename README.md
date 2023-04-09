@@ -7,6 +7,7 @@ search for your favorite artist, event or venue, and customize your travel plans
 to match your needs.
 
 **Powered by:**
+
 [![Resident Advisor](https://i.ibb.co/47cTCRC/image-4.png)](https://www.residentadvisor.net/)
 RA
 
