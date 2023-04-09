@@ -6,7 +6,7 @@ A web app to simplify the process of planning your next event by allowing you to
 search for your favorite artist, event or venue, and customize your travel plans
 to match your needs.
 
-***Powered by:***
+### *Powered by:*
 
 
 [![Resident Advisor](https://i.ibb.co/47cTCRC/image-4.png)](https://www.residentadvisor.net/)
