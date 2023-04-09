@@ -7,7 +7,7 @@ export const Layout: FCWithChildren = ({ children }: FCWithChildren) => {
       <img
         src="/logo.svg"
         alt="FestWithMe logo"
-        className="absolute top-0 left-[50%] translate-x-[-50%] scale(75) z-10"
+        className="absolute top-0 left-[50%] translate-x-[-50%] scale(75) z-10 hidden md:block"
       />
       <div className="absolute w-full h-[45vh] bg-hero-festival bg-cover bg-center shadow-3xl" />
       <div className="absolute w-full h-[45vh] bg-black opacity-20" />
