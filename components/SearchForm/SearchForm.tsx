@@ -5,6 +5,7 @@ import { SearchRef } from "../../types.ts";
 import { NumberInput } from "../NumberInput/NumberInput.tsx";
 import { TextField } from "../TextField/TextField.tsx";
 import { SearchFormProps } from "./types.ts";
+import { lookUpVenue } from "./utils/look-up-venue.ts";
 
 export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
   const [searchRef, setSearchRef] = useState<SearchRef>({});
@@ -18,18 +19,6 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
       }));
     };
 
-  // TODO: Move to utils
-  const lookUpVenue = async (venueId: string) => {
-    console.log(
-      "🚀 ~ file: SearchForm.tsx:22 ~ lookUpVenue ~ venueId:",
-      venueId,
-    );
-    // TODO: Try, catch
-    return await fetch(`/api/search/events?venueId=${venueId}`).then((res) =>
-      res.json()
-    );
-  };
-
   const handleEventChange = async (
     eventName: string,
     eventMetadataJSON: string,
@@ -40,17 +29,14 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
 
     const metadata = JSON.parse(eventMetadataJSON);
 
-    const { venueId, ...eventData } = metadata;
+    const { venueId, area, ...eventData } = metadata;
 
-    const venue = await lookUpVenue(venueId);
+    const venue = await lookUpVenue(venueId, area);
 
     onEventChange(eventData);
     setSearchRef((ref: SearchRef) => ({
       ...ref,
-      destination: {
-        geo: venue.geo,
-        address: venue.address,
-      },
+      ...(venue !== null && { destination: venue }),
       event: {
         ...eventData,
         name: eventName,

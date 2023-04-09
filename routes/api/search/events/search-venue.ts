@@ -1,7 +1,7 @@
 import config from "../../../../config.ts";
 import { geocode } from "../flights/geocode.ts";
 
-export const searchVenue = async (venueId: string) => {
+export const searchVenue = async (venueId: string, area?: string) => {
   const res = await fetch(config.RA_SEARCH_API, {
     "headers": {
       "content-type": "application/json",
@@ -21,8 +21,13 @@ export const searchVenue = async (venueId: string) => {
     }),
   }).then((res) => res.json());
 
-  // if venue.adddress !== null / undefined, geocode it
-  const coordinates = await geocode(res.data.venue.address);
+  if (res.data.venue === null && typeof area === "string") {
+    const areaCoordinates = await geocode(area);
+    return { geo: areaCoordinates, address: area };
+  }
 
-  return { ...res.data.venue, geo: coordinates };
+  // if venue.adddress !== null / undefined, geocode it
+  const clubCoordinates = await geocode(res.data.venue.address);
+
+  return { ...res.data.venue, geo: clubCoordinates };
 };

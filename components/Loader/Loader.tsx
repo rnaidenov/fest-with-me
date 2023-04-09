@@ -1,12 +1,10 @@
 import { JSX } from "preact";
 import { useEffect, useState } from "preact/hooks";
+import { withClass } from "../../utils/fe/with-class.ts";
 
 type LoaderProps = JSX.HTMLAttributes & {
   text: string;
 };
-
-const withClass = (baseClass: string, className?: string) =>
-  `${baseClass}${" " + className ?? ""}`;
 
 export const Loader = ({ text, className }: LoaderProps) => {
   const [prevText, setPrevText] = useState("");

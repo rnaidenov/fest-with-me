@@ -18,6 +18,7 @@ export const searchEvents = async (searchTerm: string) => {
             id 
             value
             contentUrl
+            areaName
             clubContentUrl
             date
           }

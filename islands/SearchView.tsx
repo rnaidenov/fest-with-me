@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { PageProps } from "$fresh/server.ts";
 import { Results, SearchForm } from "@components";
 import {
-  AccommodationData,
   CurrencyCode,
   EventData,
   FlightsData,
@@ -10,15 +9,13 @@ import {
   SearchResults,
 } from "../types.ts";
 import { accommodationQuery, flightsQuery } from "../utils/fe/index.ts";
-import { Maybe, SearchStatus } from "../types.ts";
+import { SearchStatus } from "../types.ts";
 import { CurrencyContext } from "../context/CurrencyContext.ts";
 import { Loader } from "../components/Loader/Loader.tsx";
 
-// TODO: Fix button active state
 // TODO: Events on the same date
 // TODO: Events in the past
 // TODO: Events for which no flights
-
 export default function SearchView(props: PageProps) {
   // const searchWrapRef = useRef();
   const [searchStatus, setSearchStatus] = useState<SearchStatus>(
@@ -69,6 +66,12 @@ export default function SearchView(props: PageProps) {
 
     const { event, destination, ...refWithoutEvent } = searchRef;
 
+    // TODO:
+    if (destination === null) {
+      // notify user that cannot search to event and enter city instead
+      return;
+    }
+
     const flightsData = await flightsQuery({
       // TODO: location.area + location.country
       ...refWithoutEvent,
@@ -85,7 +88,7 @@ export default function SearchView(props: PageProps) {
       currency: currency.active,
       eventDate: searchRef.event.date,
       numPeople: searchRef.numPeople,
-      destination: searchRef.destination.address,
+      destination: searchRef.destination.address ?? searchRef,
       dateTo: flightsData?.outboundDate,
       dateFrom: flightsData?.inboundDate,
     });

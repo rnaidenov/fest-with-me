@@ -2,6 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import { useFirstRender } from "@fe/hooks";
 import { NumberInputProps } from "./types.ts";
 import { imgAlt } from "./utils/img-alt.ts";
+import { UPDATE_ANIMATION_DURATION_MILLISECONDS } from "../ResultCard/consts.ts";
 
 export const NumberInput = (
   { singular, plural, iconAffix, onUpdate }: NumberInputProps,
@@ -33,8 +34,7 @@ export const NumberInput = (
       // TODO: Is this right?
       setTimeout(() => {
         setIsSingularPluralChanged(false);
-        // TODO: Const
-      }, 1000);
+      }, 1.5 * UPDATE_ANIMATION_DURATION_MILLISECONDS);
     };
   }, [singularOrPlural]);
 

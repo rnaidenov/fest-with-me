@@ -6,7 +6,10 @@ export const handler = async (req: Request, _ctx: HandlerContext): Response => {
     if (req.method === "GET") {
       const urlParams = new URLSearchParams(req.url.split("?")[1]);
       // TODO: When no id is provided.
-      const data = await searchVenue(urlParams.get("venueId")!);
+      const data = await searchVenue(
+        urlParams.get("venueId")!,
+        urlParams.get("area")!,
+      );
 
       return new Response(JSON.stringify(data), {
         status: 200,

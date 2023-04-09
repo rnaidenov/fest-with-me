@@ -17,7 +17,7 @@ export const ResultsMobile = (
       name="Flight"
       redirectUrl={flights?.url}
       icon="/flight.svg"
-      iconStyles="animate-fly"
+      iconStyles="animate-plane"
       price={flights?.price}
       onPriceUpdate={onPriceUpdate}
     />

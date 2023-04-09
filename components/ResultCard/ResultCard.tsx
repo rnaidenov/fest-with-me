@@ -5,12 +5,9 @@ import { useFirstRender } from "../../utils/fe/hooks/use-first-render.ts";
 import { ResultCardProps } from "./types.ts";
 import { UPDATE_ANIMATION_DURATION_MILLISECONDS } from "./consts.ts";
 import { ResultPrice } from "./ResultPrice.tsx";
+import { withClass } from "../../utils/fe/with-class.ts";
 
 // TODO: REFACTOR!
-
-// TODO: withClass fn
-// class to be optional!
-// {' ' + className ?? ''}`
 export const ResultCard = (props: ResultCardProps) => {
   const {
     name,
@@ -126,23 +123,11 @@ export const ResultCard = (props: ResultCardProps) => {
   return (
     <a
       {...props}
-      // TODO: withClass
-      className={`
-        relative
-        bg-white 
-        inline-flex 
-        flex-col 
-        justify-around 
-        shadow-4xl 
-        items-center
-        rounded-[2.5rem] 
-        hover:cursor-pointer 
-        hover:scale-[1.025]
-        hover:rounded-3xl 
-        transition-all
-        duration-300
-        ${" " + className ?? ""}
-      `}
+      withClass
+      className={withClass(
+        "relative bg-white  inline-flex  flex-col  justify-around  shadow-4xl  items-center rounded-[2.5rem]  hover:cursor-pointer  hover:scale-[1.025] hover:rounded-3xl  transition-all duration-300",
+        className,
+      )}
       href={redirectUrl}
       target="_blank"
     >
@@ -209,7 +194,6 @@ export const ResultCard = (props: ResultCardProps) => {
               emptyPriceDemo={showManualPriceDemo}
               seekAttention={hasCurrencyChanged || showManualPriceDemo}
             />
-            // TODO: withClass
           )}
       </p>
     </a>

@@ -22,6 +22,7 @@ type BaseResultsData = {
 export type EventData = BaseResultsData & {
   name: string;
   date: string;
+  area: string;
 };
 
 export type FlightsData = BaseResultsData & {
