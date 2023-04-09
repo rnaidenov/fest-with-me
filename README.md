@@ -10,13 +10,13 @@ to match your needs.
 
 
 [![Resident Advisor](https://i.ibb.co/47cTCRC/image-4.png)](https://www.residentadvisor.net/)
-RA
+ RA
 ---
 
 [![AirBnb](https://i.ibb.co/K2vhLmv/image-6.png)](https://www.airbnb.co.uk/)
-Airbnb
+ Airbnb
 ---
 
 [![Kiwi.com](https://i.ibb.co/TRy7q0c/Group-3.png)](https://kiwi.com/) 
-Kiwi.com
+ Kiwi.com
 --
