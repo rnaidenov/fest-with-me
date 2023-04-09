@@ -104,7 +104,7 @@ export const SearchForm = ({ onEventChange, onSubmit }: SearchFormProps) => {
         />
         <button
           type="submit"
-          className="flex items-center justify-center absolute w-12 h-12 -bottom-7 rounded-[100%] bg-gradient-to-b from-melon to-[#5e4b4b] shadow-3xl z-30 transition-all duration-700 hover:scale-[1.05] hover:rounded-[33%]"
+          className="flex items-center justify-center absolute w-12 h-12 -bottom-7 rounded-[33%] bg-gradient-to-b from-[#ecfff1] to-[#5e4b4b] shadow-3xl z-30 transition-all duration-700 hover:scale-[1.05]"
         >
           <img
             src="/search.svg"
