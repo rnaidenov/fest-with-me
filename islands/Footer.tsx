@@ -10,8 +10,10 @@ export default () => {
     CurrencyContext.changeCurrency(update);
   };
 
+  const anchorClass = "hover:scale-105 transition-transform duration-500";
+
   return (
-    <div className="absolute bg-black flex bottom-0 w-full h-12 justify-center md:justify-between md:pl-12 font-teko">
+    <div className="absolute bg-black flex bottom-0 w-full h-12 justify-center md:justify-between md:pl-12 font-teko overflow-hidden">
       <div className="grid grid-cols-3 place-items-center gap-x-12 md:gap-x-8">
         {[CurrencyCode.GBP, CurrencyCode.USD, CurrencyCode.EUR].map((
           currencyOption,
@@ -32,9 +34,27 @@ export default () => {
           <p className="inline-block text-white text-sm">| Powered by:</p>
         </div>
         <div className="grid grid-cols-3 place-items-center scale-75 -ml-6">
-          <img src="/ra.svg" alt="Resident Advisor" />
-          <img src="/kiwi.svg" alt="Kiwi.com" />
-          <img src="airbnb.svg" alt="AirBnb" />
+          <a
+            href="https://ra.co/"
+            target="_blank"
+            className={anchorClass}
+          >
+            <img src="/ra.svg" alt="Resident Advisor" />
+          </a>
+          <a
+            href="https://www.kiwi.com/en/"
+            target="_blank"
+            className={anchorClass}
+          >
+            <img src="/kiwi.svg" alt="Kiwi.com" />
+          </a>
+          <a
+            href="https://www.airbnb.com/"
+            target="_blank"
+            className={anchorClass}
+          >
+            <img src="airbnb.svg" alt="AirBnb" />
+          </a>
         </div>
       </div>
     </div>
