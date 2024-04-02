@@ -21,10 +21,9 @@ export const prepareQuery =
     const firstFilterV2 = sections.find((
       section: { sectionComponentType: string },
     ) => section.sectionComponentType === AirbnbFilter.Explore);
-    const avgPriceText =
-      firstFilterV2.section.discreteFilterItems[0].text.subtitle;
+    
+    const filterItems = firstFilterV2.section.discreteFilterItems[0];
+    const averagePrice = (filterItems.minValue + filterItems.maxValue) / 2;
 
-    const currencySymbol = CurrencySymbol[query.currency];
-
-    return Number(avgPriceText.split(currencySymbol)[1].trim());
+    return averagePrice;
   };
