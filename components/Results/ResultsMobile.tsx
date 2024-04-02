@@ -16,7 +16,7 @@ export const ResultsMobile = (
     <ResultCard
       name="Flight"
       redirectUrl={flights?.url}
-      icon="/flight.svg"
+      icon="/plane.svg"
       iconStyles="animate-plane"
       price={flights?.price}
       onPriceUpdate={onPriceUpdate}
